@@ -1,6 +1,7 @@
 
 package org.gooru.missioncontrol.processors.auth;
 
+import org.gooru.missioncontrol.processors.responses.ExecutionResult;
 import org.gooru.missioncontrol.processors.responses.MessageResponse;
 
 /**
@@ -8,5 +9,5 @@ import org.gooru.missioncontrol.processors.responses.MessageResponse;
  */
 public interface Authorizer {
 
-  MessageResponse authorize(String op);
+  ExecutionResult<MessageResponse> authorize(String op);
 }

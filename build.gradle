@@ -17,7 +17,6 @@ if (!JavaVersion.current().java8Compatible) {
 
 ext {
     vertxVersion = '3.5.0'
-	kafkaVersion = '1.1.0'
     junitVersion = '4.12'
     logbackVersion = '1.2.3'
     hikariVersion = '2.7.6'
@@ -32,7 +31,6 @@ dependencies {
     compile "io.vertx:vertx-web:${vertxVersion}"
     compile "io.vertx:vertx-redis-client:${vertxVersion}"
     
-	compile "org.apache.kafka:kafka_2.12:${kafkaVersion}"
     compile "ch.qos.logback:logback-classic:${logbackVersion}"
     compile "com.zaxxer:HikariCP:${hikariVersion}"
     compile "org.postgresql:postgresql:${postgresVersion}"
@@ -44,21 +42,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'	
 	
-    // https://mvnrepository.com/artifact/net.time4j/time4j-core
-    compile group: 'net.time4j', name: 'time4j-core', version: '4.36'
-    
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'
-    
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.0'
-    
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.2.1'
-    
-    // https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
-    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
-
     // Test dependencies
     testCompile "junit:junit:${junitVersion}"
 }
