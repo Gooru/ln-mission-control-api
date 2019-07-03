@@ -3,6 +3,7 @@ package org.gooru.missioncontrol.processors;
 
 import org.gooru.missioncontrol.constants.MessageConstants;
 import org.gooru.missioncontrol.processors.partners.FetchPartnersProcessor;
+import org.gooru.missioncontrol.processors.stats.countries.StatsByCountryProcessor;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -24,7 +25,7 @@ public final class MessageProcessorBuilder {
       case MessageConstants.MSG_OP_PARTNER_GET:
         return null;
       case MessageConstants.MSG_OP_COUNTRIES_STATS:
-        return null;
+        return new StatsByCountryProcessor(vertx, message);
 
       default:
         return null;
