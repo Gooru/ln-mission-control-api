@@ -87,7 +87,8 @@ public class FetchPartnersProcessor implements MessageProcessor {
 
         UUID tenantId = partner.getTenant();
         if (tenantId != null) {
-          partnerJson.put("active_users", userCounts.get(tenantId.toString()));
+          Long activeUsers = userCounts.get(tenantId.toString());
+          partnerJson.put("active_users", (activeUsers != null) ? activeUsers : 0);
           partnerJson.put("tenant_manager", true);
         } else {
           partnerJson.put("active_users", 0);
