@@ -17,9 +17,13 @@ public class PartnersDataService {
     this.dao = dbi.onDemand(PartnersDataDao.class);
   }
 
-  public List<StatsByCountryModel> fetchStatsByCountry(Integer month, Integer year) {
-    
-    return this.dao.fetchStatsByCountry(month, year);
+  public Map<Long, StatsByCountryModel> fetchStatsByCountry(Integer month, Integer year) {
+    List<StatsByCountryModel> stats = this.dao.fetchStatsByCountry(month, year);
+    Map<Long, StatsByCountryModel> statsMap = new HashMap<>();
+    stats.forEach(stat -> {
+      statsMap.put(stat.getCountryId(), stat);
+    });
+    return statsMap;
   }
 
   public Map<String, StatsByTenantPartnerModel> fetchStatsByTenantPartner(Integer month,
