@@ -34,7 +34,7 @@ public class RouteAuthConfigurator implements RouteConfigurator {
   @Override
   public void configureRoutes(Vertx vertx, Router router, JsonObject config) {
     this.eb = vertx.eventBus();
-    this.mbusTimeout = config.getLong(MessageConstants.MBUS_TIMEOUT, 30L);
+    this.mbusTimeout = config.getLong(MessageConstants.MBUS_TIMEOUT, 30L) * 1000;
 
     router.route(RouteConstants.API_AUTH_ROUTE).handler(this::handleAuth);
   }
