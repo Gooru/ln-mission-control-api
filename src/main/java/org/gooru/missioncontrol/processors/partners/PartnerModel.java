@@ -12,6 +12,10 @@ public class PartnerModel {
   private String organizationName;
   private String partnerType;
   private UUID tenant;
+  private UUID partner;
+  private String website;
+  private String logo;
+  private Long[] countries;
 
   public Long getId() {
     return id;
@@ -45,4 +49,36 @@ public class PartnerModel {
     this.tenant = tenant;
   }
 
+  public UUID getPartner() {
+    return partner;
+  }
+
+  public void setPartner(UUID partner) {
+    this.partner = partner;
+  }
+
+  public String getWebsite() {
+    return website;
+  }
+
+  public void setWebsite(String website) {
+    this.website = website;
+  }
+  
+  public String getLogo() {
+    return logo;
+  }
+
+  public void setLogo(String logo) {
+    this.logo = logo;
+  }
+
+  public Long[] getCountries() {
+    return countries;
+  }
+
+  public void setCountries(Long[] countries) {
+    this.countries = countries;
+  }
+  
 }

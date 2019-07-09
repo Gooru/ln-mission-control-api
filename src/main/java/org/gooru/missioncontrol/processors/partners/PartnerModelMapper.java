@@ -1,6 +1,7 @@
 
 package org.gooru.missioncontrol.processors.partners;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -18,9 +19,21 @@ public class PartnerModelMapper implements ResultSetMapper<PartnerModel> {
     model.setId(r.getLong("id"));
     model.setOrganizationName(r.getString("organization_name"));
     model.setPartnerType(r.getString("partner_type"));
+    model.setWebsite(r.getString("website"));
+    model.setLogo(r.getString("partner_logo"));
     String tenantId = r.getString("tenant");
     if (tenantId != null) {
       model.setTenant(UUID.fromString(tenantId));
+    }
+    
+    String partner = r.getString("partner");
+    if (partner != null) {
+      model.setPartner(UUID.fromString(partner));
+    }
+    
+    Array countries = r.getArray("countries");
+    if (countries != null) {
+      model.setCountries((Long[]) countries.getArray());
     }
     return model;
   }

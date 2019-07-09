@@ -2,6 +2,7 @@ package org.gooru.missioncontrol.bootstrap.component.jdbi;
 
 import javax.sql.DataSource;
 import org.gooru.missioncontrol.bootstrap.component.DataSourceRegistry;
+import org.gooru.missioncontrol.constants.AppConstants;
 import org.skife.jdbi.v2.DBI;
 
 /**
@@ -15,6 +16,11 @@ public final class DBICreator {
 
   public static DBI getDbiForDefaultDS() {
     return createDBI(DataSourceRegistry.getInstance().getDefaultDataSource());
+  }
+
+  public static DBI getDbiForDatascopeDB() {
+    return createDBI(
+        DataSourceRegistry.getInstance().getDataSourceByName(AppConstants.DATASCOPE_DATA_SOURCE));
   }
 
   private static DBI createDBI(DataSource dataSource) {
