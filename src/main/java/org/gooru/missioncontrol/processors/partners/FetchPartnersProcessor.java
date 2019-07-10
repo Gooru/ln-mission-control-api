@@ -4,6 +4,7 @@ package org.gooru.missioncontrol.processors.partners;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -95,12 +96,16 @@ public class FetchPartnersProcessor implements MessageProcessor {
       Map<String, StatsByTenantPartnerModel> statsByClientMap) {
     JsonObject result = new JsonObject();
     Set<String> keys = partnersByTypeMap.keySet();
+    
+    Long overallTotalUsers = 0l;
+    Set<Long> totalPartners = new HashSet<>();
     for (String partnerType : keys) {
       JsonArray partnersArray = new JsonArray();
       List<PartnerModel> partners = partnersByTypeMap.get(partnerType);
-      partners.forEach(partner -> {
+      for (PartnerModel partner : partners) {
         JsonObject partnerJson = new JsonObject();
         partnerJson.put("partner_id", partner.getId());
+        totalPartners.add(partner.getId());
         partnerJson.put("partner_name", partner.getOrganizationName());
         partnerJson.put("website", partner.getWebsite());
         partnerJson.put("logo", partner.getLogo());
@@ -120,6 +125,7 @@ public class FetchPartnersProcessor implements MessageProcessor {
             partnerJson.put("total_others", totalOthers);
 
             Long totalUsers = totalStudents + totalTeachers + totalOthers;
+            overallTotalUsers = overallTotalUsers + totalUsers;
             partnerJson.put("total_users", totalUsers);
 
             partnerJson.put("total_classes", statByClient.getTotalClasses());
@@ -131,10 +137,16 @@ public class FetchPartnersProcessor implements MessageProcessor {
           populateEmpty(partnerJson);
         }
         partnersArray.add(partnerJson);
-      });
+      }
 
       result.put(partnerType, partnersArray);
     }
+    
+    JsonObject overallStatsJson = new JsonObject();
+    overallStatsJson.put("total_partners", totalPartners.size());
+    overallStatsJson.put("total_users", overallTotalUsers);
+    overallStatsJson.put("total_countries", 2);
+    result.put("overall_stats", overallStatsJson);
     return result;
   }
 
