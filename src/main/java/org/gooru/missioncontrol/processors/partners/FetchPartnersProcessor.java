@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.gooru.missioncontrol.bootstrap.component.jdbi.DBICreator;
+import org.gooru.missioncontrol.constants.AppConstants;
 import org.gooru.missioncontrol.constants.MessageConstants;
 import org.gooru.missioncontrol.processors.MessageProcessor;
 import org.gooru.missioncontrol.processors.dbhelpers.CountryModel;
@@ -54,11 +55,35 @@ public class FetchPartnersProcessor implements MessageProcessor {
 
   @Override
   public Future<MessageResponse> process() {
-    LOGGER.debug("fetching all partners from database");
+    LOGGER.debug("fetching partners data");
     
     JsonObject requestBody = message.body().getJsonObject(MessageConstants.MSG_HTTP_BODY);
+    String strRefresh = requestBody.getString("refresh", null);
+    Boolean isRefresh = (strRefresh == null || strRefresh.isEmpty()) ? false : Boolean.valueOf(strRefresh);
     String partnerType = requestBody.getString("type", null);
     
+    if (!isRefresh) {
+      String cacheData = PARTNERS_SERVICE.fetchFromCache(partnerType, AppConstants.CACHE_TYPE_PARTNERS_STATS_API);
+      if (cacheData != null) {
+        JsonObject response = new JsonObject(cacheData);
+        result.complete(MessageResponseFactory.createGetResponse(response));
+        LOGGER.debug("sending response from cache");
+        return result;
+      } else {
+        LOGGER.debug("no data found in cache");
+      }
+    }
+    
+    LOGGER.debug("fetching data from data store");
+    JsonObject response = fetchPartnersData(partnerType);
+    PARTNERS_SERVICE.updateCache(partnerType, response.toString(), AppConstants.CACHE_TYPE_PARTNERS_STATS_API);
+    
+    LOGGER.debug("sending fresh response from DB");
+    result.complete(MessageResponseFactory.createGetResponse(response));
+    return result;
+  }
+  
+  private JsonObject fetchPartnersData(String partnerType) {
     List<PartnerModel> partners = new ArrayList<>();
     if (partnerType != null) {
       partners = PARTNERS_SERVICE.fetchPartnersByType(partnerType);
@@ -86,10 +111,7 @@ public class FetchPartnersProcessor implements MessageProcessor {
 
     LOGGER.debug("preparing response");
     JsonObject response = prepareResponse(partnersByTypeMap, statsByClientMap);
-
-    LOGGER.debug("sending response: {}", response.toString());
-    result.complete(MessageResponseFactory.createGetResponse(response));
-    return result;
+    return response;
   }
 
   private JsonObject prepareResponse(Map<String, List<PartnerModel>> partnersByTypeMap,

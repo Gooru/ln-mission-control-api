@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.gooru.missioncontrol.bootstrap.component.jdbi.DBICreator;
+import org.gooru.missioncontrol.constants.AppConstants;
+import org.gooru.missioncontrol.constants.MessageConstants;
 import org.gooru.missioncontrol.processors.MessageProcessor;
 import org.gooru.missioncontrol.processors.dbhelpers.CountryModel;
 import org.gooru.missioncontrol.processors.dbhelpers.DBHelperService;
 import org.gooru.missioncontrol.processors.partners.PartnersDataService;
+import org.gooru.missioncontrol.processors.partners.PartnersService;
 import org.gooru.missioncontrol.processors.partners.StatsByCountryModel;
 import org.gooru.missioncontrol.processors.responses.MessageResponse;
 import org.gooru.missioncontrol.processors.responses.MessageResponseFactory;
@@ -30,6 +33,8 @@ public class StatsByCountryProcessor implements MessageProcessor {
 
   private final static DBHelperService DBHELPER_SERVICE =
       new DBHelperService(DBICreator.getDbiForDefaultDS());
+  
+  private final static PartnersService PARTNERS_SERVICE = new PartnersService(DBICreator.getDbiForDefaultDS());
 
   private final static PartnersDataService PARTNERS_DATA_SERVICE =
       new PartnersDataService(DBICreator.getDbiForDatascopeDB());
@@ -53,6 +58,23 @@ public class StatsByCountryProcessor implements MessageProcessor {
   @Override
   public Future<MessageResponse> process() {
     LOGGER.debug("fetching stats by countries");
+    JsonObject requestBody = message.body().getJsonObject(MessageConstants.MSG_HTTP_BODY);
+    String strRefresh = requestBody.getString("refresh", null);
+    Boolean isRefresh = (strRefresh == null || strRefresh.isEmpty()) ? false : Boolean.valueOf(strRefresh);
+    
+    if (!isRefresh) {
+      String cacheData = PARTNERS_SERVICE.fetchFromCache(null, AppConstants.CACHE_TYPE_COUNTRIES_STATS_API);
+      if (cacheData != null) {
+        JsonObject response = new JsonObject(cacheData);
+        result.complete(MessageResponseFactory.createGetResponse(response));
+        LOGGER.debug("sending data from cache");
+        return result;
+      } else {
+        LOGGER.debug("no data found in cache");
+      }
+    }
+    
+    LOGGER.debug("fetching fresh data from data store");
     LocalDate now = LocalDate.now();
     Map<Long, StatsByCountryModel> statsByCountryMap =
         PARTNERS_DATA_SERVICE.fetchStatsByCountry(now.getMonthValue(), now.getYear());
@@ -72,6 +94,7 @@ public class StatsByCountryProcessor implements MessageProcessor {
     response.put("global_total_students", globalStudents);
     response.put("global_total_teachers", globalTeachers);
     response.put("global_total_others", globalOthers);
+    PARTNERS_SERVICE.updateCache(null, response.toString(), AppConstants.CACHE_TYPE_COUNTRIES_STATS_API);
     result.complete(MessageResponseFactory.createGetResponse(response));
     return result;
   }
