@@ -19,22 +19,16 @@ public final class HttpConstants {
 
   public enum HttpStatus {
 
-    SUCCESS(200, "Successful"),
-    CREATED(201, "Created"),
-    ACCEPTED(202, "Accepted"),
-    NO_CONTENT(204, "No Content"),
-    MOVED_PERMANENTLY(302, "Moved Permanently"),
-    NOT_MODIFIED(304, "Not Modified"),
-    BAD_REQUEST(400, "Bad Request"),
-    UNAUTHORIZED(401, "Unauthorized"),
-    FORBIDDEN(403, "Forbidden"),
-    NOT_FOUND(404, "Not Found"),
-    NOT_ACCEPTABLE(406, "Not Acceptable"),
-    TIMED_OUT(408, "Request Timeout"),
-    TOO_LARGE(413, "Request Entity Too Large"),
-    TOO_MANY_REQUESTS(429, "Too Many Requests"),
-    ERROR(500, "Internal Server Error"),
-    GONE(410, "Gone");
+    SUCCESS(200, "Successful"), CREATED(201, "Created"), ACCEPTED(202, "Accepted"), NO_CONTENT(204,
+        "No Content"), MOVED_PERMANENTLY(302, "Moved Permanently"), NOT_MODIFIED(304,
+            "Not Modified"), BAD_REQUEST(400, "Bad Request"), UNAUTHORIZED(401,
+                "Unauthorized"), FORBIDDEN(403, "Forbidden"), NOT_FOUND(404,
+                    "Not Found"), NOT_ACCEPTABLE(406, "Not Acceptable"), TIMED_OUT(408,
+                        "Request Timeout"), TOO_LARGE(413,
+                            "Request Entity Too Large"), TOO_MANY_REQUESTS(429,
+                                "Too Many Requests"), ERROR(500,
+                                    "Internal Server Error"), NOT_IMPLEMENTED(501,
+                                        "Not Implemented"), GONE(410, "Gone");
 
     private final int code;
     private final String message;

@@ -3,8 +3,6 @@ package org.gooru.missioncontrol.processors.utils;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
-import org.gooru.missioncontrol.processors.ProcessorContext;
-import io.vertx.core.json.JsonArray;
 
 public final class HelperUtility {
 
@@ -56,15 +54,5 @@ public final class HelperUtility {
       }
       sb.append(',');
     }
-  }
-
-  public static String readRequestParam(String param, ProcessorContext context) {
-    JsonArray requestParams = context.request().getJsonArray(param);
-    if (requestParams == null || requestParams.isEmpty()) {
-      return null;
-    }
-
-    String value = requestParams.getString(0);
-    return (value != null && !value.isEmpty()) ? value : null;
   }
 }

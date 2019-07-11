@@ -34,7 +34,7 @@ public class RouteAuthConfigurator implements RouteConfigurator {
   @Override
   public void configureRoutes(Vertx vertx, Router router, JsonObject config) {
     this.eb = vertx.eventBus();
-    this.mbusTimeout = config.getLong(MessageConstants.MBUS_TIMEOUT, 30L);
+    this.mbusTimeout = config.getLong(MessageConstants.MBUS_TIMEOUT, 30L) * 1000;
 
     router.route(RouteConstants.API_AUTH_ROUTE).handler(this::handleAuth);
   }
@@ -57,7 +57,7 @@ public class RouteAuthConfigurator implements RouteConfigurator {
         if (reply.succeeded()) {
           AuthResponseParser responseParser = new AuthResponseParser(reply.result());
           if (responseParser.isAuthorized()) {
-            routingContext.put(MessageConstants.MSG_HEADER_CLIENTID, responseParser.clientId());
+            routingContext.put(MessageConstants.MSG_KEY_SESSION, responseParser.session());
             routingContext.put(MessageConstants.MSG_HEADER_TENANTID, responseParser.tenantId());
             routingContext.next();
           } else {
@@ -92,7 +92,6 @@ public class RouteAuthConfigurator implements RouteConfigurator {
     public AuthResponseParser(Message<Object> message) {
       this.message = message;
       if (message != null) {
-        LOGGER.debug("received message with body: {}", message.body().toString());
         if (!(message.body() instanceof JsonObject)) {
           LOGGER.error("message body should be of type json");
           throw new IllegalArgumentException("message body should be of type json");
@@ -109,25 +108,19 @@ public class RouteAuthConfigurator implements RouteConfigurator {
     public boolean isAuthorized() {
       return isAuthorized;
     }
-
-    public String clientId() {
-      if (!isAuthorized) {
-        return null;
-      }
-      JsonObject messageBody = (JsonObject) message.body();
-      return messageBody.getJsonObject(MessageConstants.MSG_HTTP_BODY)
-          .getJsonObject(MessageConstants.MSG_HTTP_RESPONSE)
-          .getString(MessageConstants.MSG_HEADER_CLIENTID);
+    
+    public JsonObject session() {
+      return (JsonObject) message.body();
     }
 
     public String tenantId() {
       if (!isAuthorized) {
         return null;
       }
+      
       JsonObject messageBody = (JsonObject) message.body();
-      return messageBody.getJsonObject(MessageConstants.MSG_HTTP_BODY)
-          .getJsonObject(MessageConstants.MSG_HTTP_RESPONSE)
-          .getString(MessageConstants.MSG_HEADER_TENANTID);
+      return messageBody.getJsonObject(MessageConstants.MSG_KEY_TENANT)
+          .getString(MessageConstants.MSG_KEY_TENANT_ID);
     }
   }
 }

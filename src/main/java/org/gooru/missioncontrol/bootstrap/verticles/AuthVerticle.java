@@ -90,7 +90,7 @@ public class AuthVerticle extends AbstractVerticle {
     int sessionTimeout = config().getInteger("sessionTimeoutInSeconds");
     redisClient.expire(sessionToken, sessionTimeout, updateHandler -> {
       if (updateHandler.succeeded()) {
-        LOGGER.debug("expiry time of session {} is updated", sessionToken);
+        LOGGER.debug("expiry time of session is updated");
       } else {
         LOGGER.warn("Not able to update expiry for key {}", sessionToken, updateHandler.cause());
       }

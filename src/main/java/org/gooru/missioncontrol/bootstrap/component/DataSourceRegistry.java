@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.gooru.missioncontrol.bootstrap.shutdown.Finalizer;
 import org.gooru.missioncontrol.bootstrap.startup.Initializer;
+import org.gooru.missioncontrol.constants.AppConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.zaxxer.hikari.HikariConfig;
@@ -19,7 +20,6 @@ import io.vertx.core.json.JsonObject;
  */
 public final class DataSourceRegistry implements Initializer, Finalizer {
 
-  private static final String DEFAULT_DATA_SOURCE = "defaultDataSource";
   private static final String DEFAULT_DATA_SOURCE_TYPE = "nucleus.ds.type";
   private static final String DS_HIKARI = "hikari";
   private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceRegistry.class);
@@ -54,7 +54,7 @@ public final class DataSourceRegistry implements Initializer, Finalizer {
   // All the elements in this array are supposed to be present in config file
   // as keys as we are going to initialize them with the value associated with
   // that key
-  private final List<String> datasources = Arrays.asList(DEFAULT_DATA_SOURCE);
+  private final List<String> datasources = Arrays.asList(AppConstants.DEFAULT_DATA_SOURCE, AppConstants.DATASCOPE_DATA_SOURCE);
   private final Map<String, DataSource> registry = new HashMap<>();
   private volatile boolean initialized;
 
@@ -93,7 +93,7 @@ public final class DataSourceRegistry implements Initializer, Finalizer {
   }
 
   public DataSource getDefaultDataSource() {
-    return registry.get(DEFAULT_DATA_SOURCE);
+    return registry.get(AppConstants.DEFAULT_DATA_SOURCE);
   }
 
   public DataSource getDataSourceByName(String name) {

@@ -170,27 +170,15 @@ public final class MessageResponse {
       result.put(MessageConstants.MSG_HTTP_STATUS, this.httpStatus.getCode())
           .put(MessageConstants.MSG_HTTP_HEADERS, this.headers)
           .put(MessageConstants.MSG_HTTP_BODY, buildHttpBody());
-      LOGGER.info("HTTP Status Code is {}", this.httpStatus.getCode());
       return result;
     }
 
     private JsonObject buildHttpBody() {
-      JsonObject result = new JsonObject();
       if (this.responseBody == null) {
-        this.responseBody = new JsonObject();
+        return new JsonObject();
+      } else {
+        return this.responseBody;
       }
-      switch (this.status) {
-        case MessageConstants.MSG_OP_STATUS_SUCCESS:
-          result.put(MessageConstants.MSG_HTTP_RESPONSE, responseBody);
-          break;
-        case MessageConstants.MSG_OP_STATUS_ERROR:
-          result.put(MessageConstants.MSG_HTTP_ERROR, responseBody);
-          break;
-        case MessageConstants.MSG_OP_STATUS_VALIDATION_ERROR:
-          result.put(MessageConstants.MSG_HTTP_VALIDATION_ERROR, responseBody);
-          break;
-      }
-      return result;
     }
   }
 }
