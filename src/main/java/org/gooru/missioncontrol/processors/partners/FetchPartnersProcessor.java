@@ -167,7 +167,7 @@ public class FetchPartnersProcessor implements MessageProcessor {
     JsonObject overallStatsJson = new JsonObject();
     overallStatsJson.put("total_partners", totalPartners.size());
     overallStatsJson.put("total_users", overallTotalUsers);
-    overallStatsJson.put("total_countries", 2);
+    overallStatsJson.put("total_countries", 5);
     result.put("overall_stats", overallStatsJson);
     return result;
   }
