@@ -3,6 +3,8 @@ package org.gooru.missioncontrol.processors.partners;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +48,7 @@ public class FetchPartnersProcessor implements MessageProcessor {
   private final Future<MessageResponse> result;
 
   private Map<Long, CountryModel> countriesMap = new HashMap<>();
+  private Set<Long> countryCount = new HashSet<>();
 
   public FetchPartnersProcessor(Vertx vertx, Message<JsonObject> message) {
     this.vertx = vertx;
@@ -160,16 +163,38 @@ public class FetchPartnersProcessor implements MessageProcessor {
         }
         partnersArray.add(partnerJson);
       }
-
-      result.put(partnerType, partnersArray);
+      
+      JsonArray sortedArray = sortArray(partnersArray);
+      result.put(partnerType, sortedArray);
     }
     
     JsonObject overallStatsJson = new JsonObject();
     overallStatsJson.put("total_partners", totalPartners.size());
     overallStatsJson.put("total_users", overallTotalUsers);
-    overallStatsJson.put("total_countries", 5);
+    overallStatsJson.put("total_countries", countryCount.size());
     result.put("overall_stats", overallStatsJson);
     return result;
+  }
+  
+  @SuppressWarnings("unchecked")
+  private JsonArray sortArray(JsonArray tobesorted) {
+    List<JsonObject> arrayList = tobesorted.getList();
+    Collections.sort(tobesorted.getList(), new Comparator<JsonObject>() {
+
+      @Override
+      public int compare(JsonObject o1, JsonObject o2) {
+        Long o1Value = o1.getLong("total_users");
+        Long o2Value = o2.getLong("total_users");
+
+        return o2Value.compareTo(o1Value);
+      }
+    });
+
+    JsonArray sortedArray = new JsonArray();
+    arrayList.forEach(element -> {
+      sortedArray.add(element);
+    });
+    return sortedArray;
   }
 
   private JsonArray resolveCountries(Long[] countries) {
@@ -181,7 +206,9 @@ public class FetchPartnersProcessor implements MessageProcessor {
     for (Long countryId : countries) {
       JsonObject countryJson = new JsonObject();
       CountryModel countryModel = countriesMap.get(countryId);
-      countryJson.put("id", countryModel.getId());
+      Long id = countryModel.getId();
+      countryCount.add(id);
+      countryJson.put("id", id);
       countryJson.put("name", countryModel.getName());
       countryJson.put("code", countryModel.getCode());
 
