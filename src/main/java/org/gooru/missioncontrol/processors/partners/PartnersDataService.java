@@ -17,22 +17,55 @@ public class PartnersDataService {
     this.dao = dbi.onDemand(PartnersDataDao.class);
   }
 
+  public Map<Long, StatsByCountryModel> fetchStatsByCountry() {
+    List<StatsByCountryModel> stats = this.dao.fetchStatsByCountry();
+    return this.mapStatsByCountry(stats);
+  }
+
   public Map<Long, StatsByCountryModel> fetchStatsByCountry(Integer month, Integer year) {
-    List<StatsByCountryModel> stats = this.dao.fetchStatsByCountry(month, year);
-    Map<Long, StatsByCountryModel> statsMap = new HashMap<>();
-    stats.forEach(stat -> {
-      statsMap.put(stat.getCountryId(), stat);
-    });
-    return statsMap;
+    List<StatsByCountryModel> stats = this.dao.fetchMonthAndYearWiseStatsByCountry(month, year);
+    return this.mapStatsByCountry(stats);
+  }
+
+  public Map<String, StatsByTenantPartnerModel> fetchStatsByTenantPartner() {
+    List<StatsByTenantPartnerModel> stats = this.dao.fetchStatsByTenantPartners();
+    return this.mapStatsByTenantPartner(stats);
   }
 
   public Map<String, StatsByTenantPartnerModel> fetchStatsByTenantPartner(Integer month,
       Integer year) {
-    List<StatsByTenantPartnerModel> stats = this.dao.fetchStatsByTenantPartners(month, year);
+    List<StatsByTenantPartnerModel> stats =
+        this.dao.fetchMonthAndYearWiseStatsByTenantPartners(month, year);
+    return this.mapStatsByTenantPartner(stats);
+  }
+
+  public List<StatsBySubjectModel> fetchSubjectStatsByTenantPartner(String clientId) {
+    return this.dao.fetchStatsBySubject(clientId);
+  }
+
+  public List<StatsBySubjectCategoryModel> fetchSubjectCategoryStatsByTenantPartner(
+      String clientId) {
+    return this.dao.fetchStatsBySubjectCategory(clientId);
+  }
+
+  public List<StatsByContentModel> fetchContentStatsByTenantPartner(String clientId) {
+    return this.dao.fetchStatsByContent(clientId);
+  }
+
+  private Map<String, StatsByTenantPartnerModel> mapStatsByTenantPartner(
+      List<StatsByTenantPartnerModel> stats) {
     Map<String, StatsByTenantPartnerModel> statsMap = new HashMap<>();
     stats.forEach(stat -> {
       String clientId = (stat.getPartner() != null) ? stat.getPartner() : stat.getTenant();
       statsMap.put(clientId, stat);
+    });
+    return statsMap;
+  }
+
+  private Map<Long, StatsByCountryModel> mapStatsByCountry(List<StatsByCountryModel> stats) {
+    Map<Long, StatsByCountryModel> statsMap = new HashMap<>();
+    stats.forEach(stat -> {
+      statsMap.put(stat.getCountryId(), stat);
     });
     return statsMap;
   }

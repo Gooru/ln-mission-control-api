@@ -1,6 +1,7 @@
 
 package org.gooru.missioncontrol.processors.partners;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,7 +16,11 @@ public class PartnerModel {
   private UUID partner;
   private String website;
   private String logo;
-  private Long[] countries;
+  private List<Long> countries;
+  private List<Long> states;
+  private String[] images;
+  private String[] videos;
+  
 
   public Long getId() {
     return id;
@@ -73,12 +78,36 @@ public class PartnerModel {
     this.logo = logo;
   }
 
-  public Long[] getCountries() {
+  public List<Long> getCountries() {
     return countries;
   }
 
-  public void setCountries(Long[] countries) {
+  public void setCountries(List<Long> countries) {
     this.countries = countries;
+  }
+
+  public List<Long> getStates() {
+    return states;
+  }
+
+  public void setStates(List<Long> states) {
+    this.states = states;
+  }
+
+  public String[] getImages() {
+    return images;
+  }
+
+  public void setImages(String[] images) {
+    this.images = images;
+  }
+
+  public String[] getVideos() {
+    return videos;
+  }
+
+  public void setVideos(String[] videos) {
+    this.videos = videos;
   }
   
 }

@@ -87,7 +87,7 @@ public class AuthVerticle extends AbstractVerticle {
 
   private Future<Void> updateSessionExpiryInRedis(String sessionToken) {
     Future<Void> future = Future.future();
-    int sessionTimeout = config().getInteger("sessionTimeoutInSeconds");
+    long sessionTimeout = config().getLong("sessionTimeoutInSeconds");
     redisClient.expire(sessionToken, sessionTimeout, updateHandler -> {
       if (updateHandler.succeeded()) {
         LOGGER.debug("expiry time of session is updated");

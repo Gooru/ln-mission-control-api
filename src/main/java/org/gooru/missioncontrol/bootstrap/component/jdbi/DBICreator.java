@@ -27,6 +27,7 @@ public final class DBICreator {
     DBI dbi = new DBI(dataSource);
     dbi.registerArgumentFactory(new PostgresIntegerArrayArgumentFactory());
     dbi.registerArgumentFactory(new PostgresStringArrayArgumentFactory());
+    dbi.registerArgumentFactory(new PostgresLongArrayArgumentFactory());
     dbi.registerArgumentFactory(new PostgresUUIDArrayArgumentFactory());
     return dbi;
   }

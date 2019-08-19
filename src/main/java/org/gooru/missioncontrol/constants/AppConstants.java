@@ -14,6 +14,7 @@ public final class AppConstants {
   public static final String DATASCOPE_DATA_SOURCE = "dsDataSource";
   
   public static final String CACHE_TYPE_PARTNERS_STATS_API = "partners.stats.cache";
+  public static final String CACHE_TYPE_PARTNER_STATS_API = "partner.stats.cache";
   public static final String CACHE_TYPE_COUNTRIES_STATS_API = "countries.stats.cache";
   
 }

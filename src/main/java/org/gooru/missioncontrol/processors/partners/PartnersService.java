@@ -14,6 +14,8 @@ public class PartnersService {
   private final static Logger LOGGER = LoggerFactory.getLogger(PartnersService.class);
 
   private final PartnersDao partnersDao;
+  
+  
 
   public PartnersService(DBI dbi) {
     this.partnersDao = dbi.onDemand(PartnersDao.class);
@@ -37,6 +39,10 @@ public class PartnersService {
     }
     return this.partnersDao.fetchFromCacheByPartnerType(partnerType, cacheType);
   }
+  
+  public String fetchFromCacheByPartnerId(Long partnerId, String cacheType) {
+    return this.partnersDao.fetchFromCacheByPartnerId(partnerId, cacheType);
+  }
 
   public void updateCache(String partnerType, String data, String cacheType) {
     Integer count = -1;
@@ -58,6 +64,17 @@ public class PartnersService {
       } else {
         this.partnersDao.updateCacheByPartnerType(partnerType, data, cacheType);
       }
+    }
+  }
+  
+  public void updateCacheByPartnerId(Long partnerId, String data, String cacheType) {
+    int count = this.partnersDao.checkIfCacheExistsByPartnerId(partnerId, cacheType);
+    if (count == 0) {
+      LOGGER.debug("inserting into cache table = partnerId :{} || cacheType :{}", partnerId,
+          cacheType);
+      this.partnersDao.insertCache(partnerId, data, cacheType);
+    } else  {
+      this.partnersDao.updateCacheByPartnerId(partnerId, data, cacheType);
     }
   }
 }
