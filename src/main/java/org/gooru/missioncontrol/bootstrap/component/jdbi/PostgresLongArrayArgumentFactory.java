@@ -15,7 +15,6 @@ public class PostgresLongArrayArgumentFactory implements ArgumentFactory<PGArray
   @Override
   public Argument build(Class<?> expectedType, final PGArray<Long> value, StatementContext ctx) {
     return (position, statement, ctx1) -> {
-      System.out.print(value);
       Array ary = ctx1.getConnection().createArrayOf("bigint", value.getElements());
       statement.setArray(position, ary);
     };
