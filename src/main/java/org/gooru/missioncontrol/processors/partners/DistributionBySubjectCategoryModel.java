@@ -2,7 +2,7 @@
 package org.gooru.missioncontrol.processors.partners;
 
 
-public class StatsBySubjectCategoryModel {
+public class DistributionBySubjectCategoryModel {
   private String categoryCode;
   private Long totalCount;
 

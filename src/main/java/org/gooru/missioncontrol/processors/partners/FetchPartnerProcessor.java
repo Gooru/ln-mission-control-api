@@ -141,8 +141,12 @@ public class FetchPartnerProcessor implements MessageProcessor {
         partnerJson.put("total_timespent", statByClient.getTotalTimespent());
         partnerJson.put("total_activities_conducted", statByClient.getTotalActivitiesConducted());
         partnerJson.put("total_navigator_courses", statByClient.getTotalNavgiatorCourses());
-        partnerJson.put("subject_stats", this.fetchSubjectUsageStats(clientId.toString()));
-        partnerJson.put("category_stats", this.fetchCategoryUsageStats(clientId.toString()));
+        partnerJson.put("category_distribution",
+            this.fetchSubjectDistribution(clientId.toString()));
+        partnerJson.put("subject_distribution",
+            this.fetchCategoryDistribution(clientId.toString()));
+        partnerJson.put("content_type_distribution",
+            this.fetchContentDistribution(clientId.toString()));
         partnerJson.put("content_type_stats", this.fetchContentUsageStats(clientId.toString()));
 
       } else {
@@ -203,48 +207,66 @@ public class FetchPartnerProcessor implements MessageProcessor {
     return result;
   }
 
-  private JsonArray fetchSubjectUsageStats(String clientId) {
-    List<StatsBySubjectModel> statsBySubject =
-        PARTNERS_DATA_SERVICE.fetchSubjectStatsByTenantPartner(clientId);
-    JsonArray subjectsUsageStats = new JsonArray();
-    if (statsBySubject != null && !statsBySubject.isEmpty()) {
+  private JsonArray fetchSubjectDistribution(String clientId) {
+    List<DistributionBySubjectModel> subjectDistribution =
+        PARTNERS_DATA_SERVICE.fetchSubjectDistributionByTenantPartner(clientId);
+    JsonArray subjectsDistribution = new JsonArray();
+    if (subjectDistribution != null && !subjectDistribution.isEmpty()) {
       List<String> subjectCodes = new ArrayList<>();
-      statsBySubject.forEach((subject) -> subjectCodes.add(subject.getSubjectCode()));
+      subjectDistribution.forEach((subject) -> subjectCodes.add(subject.getSubjectCode()));
       Map<String, SubjectModel> subjects = DBHELPER_SERVICE.fetchSubjects(subjectCodes);
-      statsBySubject.forEach((subjectStats) -> {
-        JsonObject subjectsUsageStat = new JsonObject();
-        SubjectModel subject = subjects.get(subjectStats.getSubjectCode());
-        subjectsUsageStat.put("id", subject.getId());
-        subjectsUsageStat.put("name", subject.getName());
-        subjectsUsageStat.put("code", subject.getCode());
-        subjectsUsageStat.put("category_id", subject.getCategoryId());
-        subjectsUsageStat.put("total_count", subjectStats.getTotalCount());
-        subjectsUsageStats.add(subjectsUsageStat);
+      subjectDistribution.forEach((subjectDistributionData) -> {
+        JsonObject subjectsDistributionData = new JsonObject();
+        SubjectModel subject = subjects.get(subjectDistributionData.getSubjectCode());
+        subjectsDistributionData.put("id", subject.getId());
+        subjectsDistributionData.put("name", subject.getName());
+        subjectsDistributionData.put("code", subject.getCode());
+        subjectsDistributionData.put("category_id", subject.getCategoryId());
+        subjectsDistributionData.put("total_count", subjectDistributionData.getTotalCount());
+        subjectsDistribution.add(subjectsDistributionData);
       });
     }
-    return subjectsUsageStats;
+    return subjectsDistribution;
   }
 
-  private JsonArray fetchCategoryUsageStats(String clientId) {
-    List<StatsBySubjectCategoryModel> statsBySubjectCategories =
-        PARTNERS_DATA_SERVICE.fetchSubjectCategoryStatsByTenantPartner(clientId);
-    JsonArray subjectCategoriesUsageStats = new JsonArray();
-    if (statsBySubjectCategories != null && !statsBySubjectCategories.isEmpty()) {
+  private JsonArray fetchCategoryDistribution(String clientId) {
+    List<DistributionBySubjectCategoryModel> distributionBySubjectCategories =
+        PARTNERS_DATA_SERVICE.fetchSubjectCategoryDistributionByTenantPartner(clientId);
+    JsonArray subjectCategoriesDistribution = new JsonArray();
+    if (distributionBySubjectCategories != null && !distributionBySubjectCategories.isEmpty()) {
       List<String> categoryCodes = new ArrayList<>();
-      statsBySubjectCategories.forEach((category) -> categoryCodes.add(category.getCategoryCode()));
+      distributionBySubjectCategories
+          .forEach((category) -> categoryCodes.add(category.getCategoryCode()));
       Map<String, SubjectCategoryModel> subjects =
           DBHELPER_SERVICE.fetchSubjectCategories(categoryCodes);
-      statsBySubjectCategories.forEach((subjectCategoriesStats) -> {
-        JsonObject subjectCategoriesUsageStat = new JsonObject();
-        SubjectCategoryModel category = subjects.get(subjectCategoriesStats.getCategoryCode());
-        subjectCategoriesUsageStat.put("id", category.getId());
-        subjectCategoriesUsageStat.put("name", category.getName());
-        subjectCategoriesUsageStat.put("code", category.getCode());
-        subjectCategoriesUsageStat.put("total_count", subjectCategoriesStats.getTotalCount());
-        subjectCategoriesUsageStats.add(subjectCategoriesUsageStat);
+      distributionBySubjectCategories.forEach((subjectCategoryDistribution) -> {
+        JsonObject subjectCategoryDistributionData = new JsonObject();
+        SubjectCategoryModel category = subjects.get(subjectCategoryDistribution.getCategoryCode());
+        subjectCategoryDistributionData.put("id", category.getId());
+        subjectCategoryDistributionData.put("name", category.getName());
+        subjectCategoryDistributionData.put("code", category.getCode());
+        subjectCategoryDistributionData.put("total_count",
+            subjectCategoryDistribution.getTotalCount());
+        subjectCategoriesDistribution.add(subjectCategoryDistributionData);
       });
     }
-    return subjectCategoriesUsageStats;
+    return subjectCategoriesDistribution;
+  }
+
+  private JsonArray fetchContentDistribution(String clientId) {
+    List<DistributionByContentModel> distributionByContent =
+        PARTNERS_DATA_SERVICE.fetchContentDistributionByTenantPartner(clientId);
+    JsonArray contentDistribution = new JsonArray();
+    if (distributionByContent != null && !distributionByContent.isEmpty()) {
+
+      distributionByContent.forEach((distributionContentData) -> {
+        JsonObject contentDistributionData = new JsonObject();
+        contentDistributionData.put("content_type", distributionContentData.getContentType());
+        contentDistributionData.put("total_count", distributionContentData.getTotalCount());
+        contentDistribution.add(contentDistributionData);
+      });
+    }
+    return contentDistribution;
   }
 
   private JsonArray fetchContentUsageStats(String clientId) {

@@ -42,17 +42,21 @@ public interface PartnersDataDao {
   public List<StatsByCountryModel> fetchMonthAndYearWiseStatsByCountry(@Bind("month") Integer month,
       @Bind("year") Integer year);
 
-  @Mapper(StatsBySubjectCategoryModelMapper.class)
-  @SqlQuery("SELECT tx_sub_category_code, SUM(total_count) as total_count  FROM group_client_subject_data_reports WHERE tenant = :clientId OR partner = :clientId GROUP BY tx_sub_category_code")
-  public List<StatsBySubjectCategoryModel> fetchStatsBySubjectCategory(
+  @Mapper(DistributionBySubjectCategoryModelMapper.class)
+  @SqlQuery("SELECT tx_sub_category_code, SUM(total_count) as total_count  FROM group_client_subject_Distribution_reports WHERE tenant = :clientId OR partner = :clientId GROUP BY tx_sub_category_code")
+  public List<DistributionBySubjectCategoryModel> fetchDistributionBySubjectCategory(
       @Bind("clientId") String clientId);
 
-  @Mapper(StatsBySubjectModelMapper.class)
-  @SqlQuery("SELECT tx_subject_code, SUM(total_count) as total_count  FROM group_client_subject_data_reports WHERE tenant = :clientId OR partner = :clientId GROUP BY tx_subject_code")
-  public List<StatsBySubjectModel> fetchStatsBySubject(@Bind("clientId") String clientId);
-
+  @Mapper(DistributionBySubjectModelMapper.class)
+  @SqlQuery("SELECT tx_subject_code, SUM(total_count) as total_count  FROM group_client_subject_distribution_reports WHERE tenant = :clientId OR partner = :clientId GROUP BY tx_subject_code")
+  public List<DistributionBySubjectModel> fetchDistributionBySubject(@Bind("clientId") String clientId);
+ 
+  @Mapper(DistributionByContentModelMapper.class)
+  @SqlQuery("SELECT content_type, SUM(total_count) as total_count  FROM group_client_content_distribution_reports WHERE tenant = :clientId OR partner = :clientId GROUP BY content_type")
+  public List<DistributionByContentModel> fetchDistributionByContent(@Bind("clientId") String clientId);
+  
   @Mapper(StatsByContentModelMapper.class)
-  @SqlQuery("SELECT content_type, country_id, SUM(total_count) as total_count  FROM group_client_content_data_reports WHERE tenant = :clientId OR partner = :clientId GROUP BY content_type, country_id")
+  @SqlQuery("SELECT content_type, country_id, SUM(total_count) as total_count  FROM group_client_content_usage_reports WHERE tenant = :clientId OR partner = :clientId GROUP BY content_type, country_id")
   public List<StatsByContentModel> fetchStatsByContent(@Bind("clientId") String clientId);
 
 }

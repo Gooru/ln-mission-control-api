@@ -39,13 +39,18 @@ public class PartnersDataService {
     return this.mapStatsByTenantPartner(stats);
   }
 
-  public List<StatsBySubjectModel> fetchSubjectStatsByTenantPartner(String clientId) {
-    return this.dao.fetchStatsBySubject(clientId);
+  public List<DistributionBySubjectModel> fetchSubjectDistributionByTenantPartner(String clientId) {
+    return this.dao.fetchDistributionBySubject(clientId);
   }
 
-  public List<StatsBySubjectCategoryModel> fetchSubjectCategoryStatsByTenantPartner(
+  public List<DistributionBySubjectCategoryModel> fetchSubjectCategoryDistributionByTenantPartner(
       String clientId) {
-    return this.dao.fetchStatsBySubjectCategory(clientId);
+    return this.dao.fetchDistributionBySubjectCategory(clientId);
+  }
+  
+  public List<DistributionByContentModel> fetchContentDistributionByTenantPartner(
+      String clientId) {
+    return this.dao.fetchDistributionByContent(clientId);
   }
 
   public List<StatsByContentModel> fetchContentStatsByTenantPartner(String clientId) {
