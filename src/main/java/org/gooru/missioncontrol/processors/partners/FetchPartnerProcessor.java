@@ -143,9 +143,9 @@ public class FetchPartnerProcessor implements MessageProcessor {
         partnerJson.put("total_timespent", statByClient.getTotalTimespent());
         partnerJson.put("total_activities_conducted", statByClient.getTotalActivitiesConducted());
         partnerJson.put("total_navigator_courses", statByClient.getTotalNavgiatorCourses());
-        partnerJson.put("category_distribution",
-            this.fetchSubjectDistribution(clientId.toString()));
         partnerJson.put("subject_distribution",
+            this.fetchSubjectDistribution(clientId.toString()));
+        partnerJson.put("category_distribution",
             this.fetchCategoryDistribution(clientId.toString()));
         partnerJson.put("content_type_distribution",
             this.fetchContentDistribution(clientId.toString()));
