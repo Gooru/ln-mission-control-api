@@ -20,7 +20,7 @@ public class PartnerModel {
   private List<Long> states;
   private String[] images;
   private String[] videos;
-  
+  private String intro;
 
   public Long getId() {
     return id;
@@ -108,6 +108,14 @@ public class PartnerModel {
 
   public void setVideos(String[] videos) {
     this.videos = videos;
+  }
+
+  public String getIntro() {
+    return intro;
+  }
+
+  public void setIntro(String intro) {
+    this.intro = intro;
   }
   
 }
