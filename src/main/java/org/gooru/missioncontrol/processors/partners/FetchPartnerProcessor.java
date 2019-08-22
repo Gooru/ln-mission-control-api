@@ -118,6 +118,8 @@ public class FetchPartnerProcessor implements MessageProcessor {
     partnerJson.put("states", resolveStates(partner.getStates()));
     partnerJson.put("videos", reslove(partner.getVideos()));
     partnerJson.put("images", reslove(partner.getImages()));
+    partnerJson.put("partner_type", partner.getPartnerType());
+    partnerJson.put("intro", partner.getIntro());
     UUID clientId = (partner.getPartner() != null) ? partner.getPartner() : partner.getTenant();
     if (clientId != null) {
       StatsByTenantPartnerModel statByClient = statsByClientMap.get(clientId.toString());

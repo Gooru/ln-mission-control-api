@@ -23,6 +23,7 @@ public class PartnerModelMapper implements ResultSetMapper<PartnerModel> {
     model.setPartnerType(r.getString("partner_type"));
     model.setWebsite(r.getString("website"));
     model.setLogo(r.getString("partner_logo"));
+    model.setIntro(r.getString("intro"));
     String tenantId = r.getString("tenant");
     if (tenantId != null) {
       model.setTenant(UUID.fromString(tenantId));
