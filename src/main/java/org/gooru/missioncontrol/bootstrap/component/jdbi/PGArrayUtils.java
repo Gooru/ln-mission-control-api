@@ -50,6 +50,10 @@ public final class PGArrayUtils {
   public static PGArray<String> convertFromListStringToSqlArrayOfString(List<String> input) {
     return PGArray.arrayOf(String.class, input);
   }
+  
+  public static PGArray<Long> convertFromListLongToSqlArrayOfLong(List<Long> input) {
+    return PGArray.arrayOf(Long.class, input);
+  }
 
   public static PGArray<UUID> convertFromListStringToSqlArrayOfUUID(List<String> input) {
     List<UUID> uuids = convertList(input, UUID::fromString);

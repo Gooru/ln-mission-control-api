@@ -2,6 +2,7 @@
 package org.gooru.missioncontrol.processors;
 
 import org.gooru.missioncontrol.constants.MessageConstants;
+import org.gooru.missioncontrol.processors.partners.FetchPartnerProcessor;
 import org.gooru.missioncontrol.processors.partners.FetchPartnersProcessor;
 import org.gooru.missioncontrol.processors.stats.countries.StatsByCountryProcessor;
 import io.vertx.core.Vertx;
@@ -23,7 +24,7 @@ public final class MessageProcessorBuilder {
       case MessageConstants.MSG_OP_PARTNERS_GET:
         return new FetchPartnersProcessor(vertx, message);
       case MessageConstants.MSG_OP_PARTNER_GET:
-        return null;
+        return new FetchPartnerProcessor(vertx, message);
       case MessageConstants.MSG_OP_COUNTRIES_STATS:
         return new StatsByCountryProcessor(vertx, message);
 

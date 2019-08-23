@@ -1,7 +1,6 @@
 
 package org.gooru.missioncontrol.processors.stats.countries;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -75,9 +74,8 @@ public class StatsByCountryProcessor implements MessageProcessor {
     }
     
     LOGGER.debug("fetching fresh data from data store");
-    LocalDate now = LocalDate.now();
     Map<Long, StatsByCountryModel> statsByCountryMap =
-        PARTNERS_DATA_SERVICE.fetchStatsByCountry(now.getMonthValue(), now.getYear());
+        PARTNERS_DATA_SERVICE.fetchStatsByCountry();
 
     countriesMap = DBHELPER_SERVICE.fetchCountries();
 

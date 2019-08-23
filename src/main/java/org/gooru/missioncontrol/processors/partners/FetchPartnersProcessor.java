@@ -1,7 +1,6 @@
 
 package org.gooru.missioncontrol.processors.partners;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -108,9 +107,8 @@ public class FetchPartnersProcessor implements MessageProcessor {
 
     countriesMap = DBHELPER_SERVICE.fetchCountries();
 
-    LocalDate now = LocalDate.now();
     Map<String, StatsByTenantPartnerModel> statsByClientMap =
-        PARTNERS_DATA_SERVICE.fetchStatsByTenantPartner(now.getMonthValue(), now.getYear());
+        PARTNERS_DATA_SERVICE.fetchStatsByTenantPartner();
 
     LOGGER.debug("preparing response");
     JsonObject response = prepareResponse(partnersByTypeMap, statsByClientMap);
@@ -197,8 +195,8 @@ public class FetchPartnersProcessor implements MessageProcessor {
     return sortedArray;
   }
 
-  private JsonArray resolveCountries(Long[] countries) {
-    if (countries == null || countries.length == 0) {
+  private JsonArray resolveCountries(List<Long> countries) {
+    if (countries == null || countries.size() == 0) {
       return new JsonArray();
     }
 
