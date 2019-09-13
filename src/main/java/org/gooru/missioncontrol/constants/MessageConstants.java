@@ -8,6 +8,7 @@ public final class MessageConstants {
   public static final String MSG_KEY_SESSION = "session";
   public static final String MSG_KEY_TENANT = "tenant";
   public static final String MSG_KEY_TENANT_ID = "tenant_id";
+  public static final String MSG_KEY_TENANT_ROOT = "tenant_root";
   public static final String MSG_OP_STATUS_SUCCESS = "success";
   public static final String MSG_OP_STATUS_ERROR = "error";
   public static final String MSG_OP_STATUS_VALIDATION_ERROR = "error.validation";

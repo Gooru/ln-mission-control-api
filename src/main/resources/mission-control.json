@@ -36,7 +36,7 @@
 		"config": {
 			"http.port": 8081,
 			"metrics.periodicity.seconds": 300,
-			"message.bus.send.timeout.seconds": 10,
+			"message.bus.send.timeout.seconds": 180,
 			"request.body.size.max.mb": 5
 		}
 	},
@@ -47,5 +47,6 @@
 		}
 	},
 	"app.configuration": {
+		"temp.file.location" : "/home/gooru/data/gooru/code/mission-control-api/uploads/"
 	}
 }

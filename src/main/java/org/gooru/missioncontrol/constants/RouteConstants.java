@@ -15,6 +15,7 @@ public final class RouteConstants {
   public static final String API_AUTH_ROUTE = API_BASE_ROUTE + '*';
 
   private static final String OP_PARTNERS = "partners";
+  private static final String OP_GROUPS = "groups";
 
   public static final String VERSION = "version";
   public static final String ID_PARTNER = "partnerId";
@@ -29,6 +30,10 @@ public final class RouteConstants {
   //api/missioncontrol/v1/stats/countries
   public static final String API_STATS_BY_COUNTRY = API_BASE_ROUTE + "stats/countries";
 
+  // Groups creation APIs
+  // api/missioncontrol/v1/groups
+  public static final String API_GROUPS = API_BASE_ROUTE + OP_GROUPS;
+  
   private RouteConstants() {
     throw new AssertionError();
   }
