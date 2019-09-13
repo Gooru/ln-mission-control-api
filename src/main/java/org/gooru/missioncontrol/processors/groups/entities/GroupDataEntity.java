@@ -57,7 +57,7 @@ public class GroupDataEntity {
   }
 
   public String getDistrictCode() {
-    return districtCode;
+    return districtCode.toLowerCase();
   }
 
   public void setDistrictCode(String districtCode) {
@@ -73,7 +73,7 @@ public class GroupDataEntity {
   }
 
   public String getBlockCode() {
-    return blockCode;
+    return blockCode.toLowerCase();
   }
 
   public void setBlockCode(String blockCode) {
@@ -89,7 +89,7 @@ public class GroupDataEntity {
   }
 
   public String getClusterCode() {
-    return clusterCode;
+    return clusterCode.toLowerCase();
   }
 
   public void setClusterCode(String clusterCode) {
@@ -105,7 +105,7 @@ public class GroupDataEntity {
   }
 
   public String getSchoolCode() {
-    return schoolCode;
+    return schoolCode.toLowerCase();
   }
 
   public void setSchoolCode(String schoolCode) {
