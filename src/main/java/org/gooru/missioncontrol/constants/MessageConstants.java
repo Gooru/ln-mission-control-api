@@ -40,6 +40,8 @@ public final class MessageConstants {
   public static final String MSG_OP_PARTNERS_GET = "partners.get";
   public static final String MSG_OP_PARTNER_GET = "partner.get";
   public static final String MSG_OP_COUNTRIES_STATS = "countries.stats";
+  public static final String MSG_OP_LEARNERS = "msg.op.learners";
+  public static final String MSG_OP_PERSONALIZE_LEARNERS = "msg.op.personalize.learners";
 
   private MessageConstants() {
     throw new AssertionError();

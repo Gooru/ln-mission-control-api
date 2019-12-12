@@ -34,6 +34,13 @@ public final class RouteConstants {
   // api/missioncontrol/v1/groups
   public static final String API_GROUPS = API_BASE_ROUTE + OP_GROUPS;
   
+  //api/missioncontrol/v1/learners
+  public static final String API_LEARNERS = API_BASE_ROUTE + "learners";
+  
+  //api/missioncontrol/v1/personalized/learners
+  public static final String API_PERSONALIZED_LEARNERS = API_BASE_ROUTE + "personalized/learners";
+ 
+  
   private RouteConstants() {
     throw new AssertionError();
   }
