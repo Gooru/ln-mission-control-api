@@ -8,6 +8,7 @@ public final class MessageConstants {
   public static final String MSG_KEY_SESSION = "session";
   public static final String MSG_KEY_TENANT = "tenant";
   public static final String MSG_KEY_TENANT_ID = "tenant_id";
+  public static final String MSG_KEY_TENANT_ROOT = "tenant_root";
   public static final String MSG_OP_STATUS_SUCCESS = "success";
   public static final String MSG_OP_STATUS_ERROR = "error";
   public static final String MSG_OP_STATUS_VALIDATION_ERROR = "error.validation";
@@ -39,6 +40,8 @@ public final class MessageConstants {
   public static final String MSG_OP_PARTNERS_GET = "partners.get";
   public static final String MSG_OP_PARTNER_GET = "partner.get";
   public static final String MSG_OP_COUNTRIES_STATS = "countries.stats";
+  public static final String MSG_OP_LEARNERS = "msg.op.learners";
+  public static final String MSG_OP_PERSONALIZE_LEARNERS = "msg.op.personalize.learners";
 
   private MessageConstants() {
     throw new AssertionError();
