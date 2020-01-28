@@ -19,6 +19,7 @@ public class RouteConfiguration implements Iterable<RouteConfigurator> {
 
     // For rest of handlers, Auth should always be first one
     configurators.add(new RouteAuthConfigurator());
+    configurators.add(new RouteAuthenticationConfigurator());
     configurators.add(new RoutePartnerAPIConfigurator());
     configurators.add(new RouteStatsConfigurator());
     configurators.add(new RouteGroupsConfigurator());

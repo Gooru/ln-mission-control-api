@@ -12,6 +12,7 @@ public class VerticleRegistry implements Iterable<String> {
   private static final String AUTH_VERTICLE = "org.gooru.missioncontrol.bootstrap.verticles.AuthVerticle";
   private static final String HTTP_VERTICLE = "org.gooru.missioncontrol.bootstrap.verticles.HttpVerticle";
   private static final String DISPATCHER_VERTICLE = "org.gooru.missioncontrol.bootstrap.verticles.DispatcherVerticle";
+  private static final String SESSION_PERSISTENCE_VERTICLE = "org.gooru.missioncontrol.bootstrap.verticles.SessionPersistenceVerticle";
 
   private final Iterator<String> iterator;
 
@@ -20,6 +21,7 @@ public class VerticleRegistry implements Iterable<String> {
     initializers.add(AUTH_VERTICLE);
     initializers.add(HTTP_VERTICLE);
     initializers.add(DISPATCHER_VERTICLE);
+    initializers.add(SESSION_PERSISTENCE_VERTICLE);
     iterator = initializers.iterator();
   }
 

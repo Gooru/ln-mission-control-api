@@ -40,35 +40,41 @@ public class RouteAuthConfigurator implements RouteConfigurator {
   }
 
   private void handleAuth(RoutingContext routingContext) {
-    String authToken =
-        extractSessionToken(routingContext.request().getHeader(HttpConstants.HEADER_AUTH));
-    if (authToken == null || authToken.isEmpty()) {
-      routingContext.response().setStatusCode(HttpConstants.HttpStatus.UNAUTHORIZED.getCode())
-          .setStatusMessage(HttpConstants.HttpStatus.UNAUTHORIZED.getMessage()).end();
-    } else {
-      // If the auth token is present, we send it to Message Bus for validation. We stash it on to
-      // routing context for good measure. We could have done that later in success callback but we
-      // want to avoid closure from callback for success to this local context, hence it is here
-      routingContext.put(MessageConstants.MSG_HEADER_TOKEN, authToken);
-      DeliveryOptions options = new DeliveryOptions().setSendTimeout(mbusTimeout * 1000)
-          .addHeader(MessageConstants.MSG_HEADER_OP, MessageConstants.MSG_OP_API_AUTH)
-          .addHeader(MessageConstants.MSG_HEADER_TOKEN, authToken);
-      eb.send(MessagebusEndpoints.MBEP_AUTH, new JsonObject(), options, reply -> {
-        if (reply.succeeded()) {
-          AuthResponseParser responseParser = new AuthResponseParser(reply.result());
-          if (responseParser.isAuthorized()) {
-            routingContext.put(MessageConstants.MSG_KEY_SESSION, responseParser.session());
-            routingContext.put(MessageConstants.MSG_HEADER_TENANTID, responseParser.tenantId());
-            routingContext.next();
+    if (!UnAuthorizedACLVerifier.hasPermit(routingContext.request())) {
+      String authToken =
+          extractSessionToken(routingContext.request().getHeader(HttpConstants.HEADER_AUTH));
+      if (authToken == null || authToken.isEmpty()) {
+        routingContext.response().setStatusCode(HttpConstants.HttpStatus.UNAUTHORIZED.getCode())
+            .setStatusMessage(HttpConstants.HttpStatus.UNAUTHORIZED.getMessage()).end();
+      } else {
+        // If the auth token is present, we send it to Message Bus for validation. We stash it on to
+        // routing context for good measure. We could have done that later in success callback but
+        // we
+        // want to avoid closure from callback for success to this local context, hence it is here
+        routingContext.put(MessageConstants.MSG_HEADER_TOKEN, authToken);
+        DeliveryOptions options = new DeliveryOptions().setSendTimeout(mbusTimeout * 1000)
+            .addHeader(MessageConstants.MSG_HEADER_OP, MessageConstants.MSG_OP_API_AUTH)
+            .addHeader(MessageConstants.MSG_HEADER_TOKEN, authToken);
+        eb.send(MessagebusEndpoints.MBEP_AUTH, new JsonObject(), options, reply -> {
+          if (reply.succeeded()) {
+            AuthResponseParser responseParser = new AuthResponseParser(reply.result());
+            if (responseParser.isAuthorized()) {
+              routingContext.put(MessageConstants.MSG_KEY_SESSION, responseParser.session());
+              routingContext.put(MessageConstants.MSG_HEADER_TENANTID, responseParser.tenantId());
+              routingContext.next();
+            } else {
+              routingContext.response()
+                  .setStatusCode(HttpConstants.HttpStatus.UNAUTHORIZED.getCode())
+                  .setStatusMessage(HttpConstants.HttpStatus.UNAUTHORIZED.getMessage()).end();
+            }
           } else {
-            routingContext.response().setStatusCode(HttpConstants.HttpStatus.UNAUTHORIZED.getCode())
-                .setStatusMessage(HttpConstants.HttpStatus.UNAUTHORIZED.getMessage()).end();
+            LOGGER.error("Not able to send message", reply.cause());
+            routingContext.response().setStatusCode(HttpConstants.HttpStatus.ERROR.getCode()).end();
           }
-        } else {
-          LOGGER.error("Not able to send message", reply.cause());
-          routingContext.response().setStatusCode(HttpConstants.HttpStatus.ERROR.getCode()).end();
-        }
-      });
+        });
+      }
+    } else {
+      routingContext.next();
     }
   }
 
@@ -108,7 +114,7 @@ public class RouteAuthConfigurator implements RouteConfigurator {
     public boolean isAuthorized() {
       return isAuthorized;
     }
-    
+
     public JsonObject session() {
       return (JsonObject) message.body();
     }
@@ -117,7 +123,7 @@ public class RouteAuthConfigurator implements RouteConfigurator {
       if (!isAuthorized) {
         return null;
       }
-      
+
       JsonObject messageBody = (JsonObject) message.body();
       return messageBody.getJsonObject(MessageConstants.MSG_KEY_TENANT)
           .getString(MessageConstants.MSG_KEY_TENANT_ID);

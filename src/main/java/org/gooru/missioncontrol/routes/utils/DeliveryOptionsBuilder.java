@@ -18,5 +18,11 @@ public final class DeliveryOptionsBuilder {
     VersionValidatorUtility.validateVersion(apiVersion);
     return new DeliveryOptions().addHeader(MessageConstants.MSG_API_VERSION, apiVersion);
   }
+  
+  public static DeliveryOptions buildWithApiVersion(RoutingContext context, DeliveryOptions options) {
+    final String apiVersion = context.request().getParam(RouteConstants.VERSION);
+    VersionValidatorUtility.validateVersion(apiVersion);
+    return options.addHeader(MessageConstants.MSG_API_VERSION, apiVersion);
+  }
 
 }

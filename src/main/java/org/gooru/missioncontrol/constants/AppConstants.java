@@ -12,6 +12,7 @@ public final class AppConstants {
   
   public static final String DEFAULT_DATA_SOURCE = "defaultDataSource";
   public static final String DATASCOPE_DATA_SOURCE = "dsDataSource";
+  public static final String AUTH_DATA_SOURCE = "authDataSource";
   
   public static final String CACHE_TYPE_PARTNERS_STATS_API = "partners.stats.cache";
   public static final String CACHE_TYPE_PARTNER_STATS_API = "partner.stats.cache";

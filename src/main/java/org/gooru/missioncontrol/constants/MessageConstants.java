@@ -1,5 +1,7 @@
 package org.gooru.missioncontrol.constants;
 
+import java.util.UUID;
+
 public final class MessageConstants {
 
   public static final String MSG_HEADER_OP = "mb.operation";
@@ -24,6 +26,8 @@ public final class MessageConstants {
   public static final String MSG_HEADER_CLIENTID = "client.id";
   public static final String MSG_HEADER_TENANTID = "tenant.id";
   public static final String MSG_API_VERSION = "api.version";
+  public static final String MSG_HEADER_BASIC_AUTH = "basic.auth";
+  public static final String MSG_HEADER_REQUEST_DOMAIN = "http.request.domain";
   
   public static final String HTTP_PORT = "http.port";
   public static final String METRICS_PERIODICITY = "metrics.periodicity.seconds";
@@ -42,6 +46,17 @@ public final class MessageConstants {
   public static final String MSG_OP_COUNTRIES_STATS = "countries.stats";
   public static final String MSG_OP_LEARNERS = "msg.op.learners";
   public static final String MSG_OP_PERSONALIZE_LEARNERS = "msg.op.personalize.learners";
+  public static final String MSG_OP_USER_SIGNIN = "msg.op.user.signin";
+  public static final String NO_VALUE = new UUID(0, 0).toString();
+  
+  public static final class Params {
+
+    public static final UUID NO_UUID = new UUID(0, 0);
+
+    private Params() {
+      throw new AssertionError();
+    }
+  }
 
   private MessageConstants() {
     throw new AssertionError();
