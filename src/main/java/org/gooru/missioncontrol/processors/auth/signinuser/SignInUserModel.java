@@ -103,4 +103,14 @@ class SignInUserModel {
     this.password = password;
   }
 
+  @Override
+  public String toString() {
+    return "SignInUserModel [id=" + id + ", email=" + email + ", firstName=" + firstName
+        + ", lastName=" + lastName + ", thumbnail=" + thumbnail + ", about=" + about
+        + ", displayName=" + displayName + ", designation=" + designation + ", tenantId=" + tenantId
+        + ", tenantRoot=" + tenantRoot + ", password=" + password + "]";
+  }
+  
+  
+
 }

@@ -21,4 +21,9 @@ public class TenantSettingModel {
     this.value = value;
   }
 
+  @Override
+  public String toString() {
+    return "TenantSettingModel [key=" + key + ", value=" + value + "]";
+  }
+
 }

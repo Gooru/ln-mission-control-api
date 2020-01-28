@@ -35,7 +35,7 @@
 	          "tcpKeepAlive": true,
 	          "tcpNoDelay": true
 	        },
-	        "sessionTimeoutInSeconds": 28800000000
+	        "sessionTimeoutInSeconds": 2880
 		}
 	},
 	"org.gooru.missioncontrol.bootstrap.verticles.HttpVerticle": {
@@ -65,7 +65,7 @@
 	          "tcpKeepAlive": true,
 	          "tcpNoDelay": true
 	        },
-	        "sessionTimeoutInSeconds": 28800000000
+	        "sessionTimeoutInSeconds": 2880
 		}
 	},
 	"app.configuration": {

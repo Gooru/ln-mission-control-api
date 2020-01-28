@@ -44,8 +44,9 @@ public class TenantModelForSignIn {
 
   @Override
   public String toString() {
-    return "TenantModelForSessionToken{" + "tenantId=" + tenantId + ", parentTenantId="
-        + parentTenantId + ", cdnUrls=" + cdnUrls + ", accessTokenValidity=" + accessTokenValidity
-        + '}';
+    return "TenantModelForSignIn [tenantId=" + tenantId + ", parentTenantId=" + parentTenantId
+        + ", cdnUrls=" + cdnUrls + ", accessTokenValidity=" + accessTokenValidity + "]";
   }
+
+  
 }

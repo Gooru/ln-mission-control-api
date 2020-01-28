@@ -1,9 +1,10 @@
 package org.gooru.missioncontrol.processors.exceptions;
 
-/**
- * @author ashish on 7/3/18.
- */
+
 public class ActiveUserForTenantNotFoundException extends RuntimeException {
+
+ 
+  private static final long serialVersionUID = 834109444994638188L;
 
   public ActiveUserForTenantNotFoundException() {}
 

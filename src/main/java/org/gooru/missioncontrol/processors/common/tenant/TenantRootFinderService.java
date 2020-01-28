@@ -3,9 +3,7 @@ package org.gooru.missioncontrol.processors.common.tenant;
 import java.util.UUID;
 import org.skife.jdbi.v2.DBI;
 
-/**
- * @author ashish on 9/3/18.
- */
+
 public class TenantRootFinderService {
   private final DBI dbi;
 

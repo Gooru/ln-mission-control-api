@@ -50,8 +50,8 @@ public class NucleusUserModelForSignIn {
 
   @Override
   public String toString() {
-    return "UserModelForSessionToken{" + "userId='" + userId + '\'' + ", appId='" + appId + '\''
-        + ", partnerId='" + partnerId + '\'' + ", username='" + username + '\'' + ", email='"
-        + email + '\'' + '}';
+    return "NucleusUserModelForSignIn [userId=" + userId + ", appId=" + appId + ", partnerId="
+        + partnerId + ", username=" + username + ", email=" + email + "]";
   }
+
 }
