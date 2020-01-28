@@ -72,4 +72,9 @@ public final class MessageResponseFactory {
         .setResponseBody(new JsonObject().put(MessageConstants.MSG_MESSAGE, API_VERSION_DEPRECATED))
         .build();
   }
+
+  public static MessageResponse createOkayResponse(JsonObject responseBody) {
+    return new MessageResponse.Builder().successful().setStatusOkay().setContentTypeJson()
+        .setResponseBody(responseBody).build();
+  }
 }

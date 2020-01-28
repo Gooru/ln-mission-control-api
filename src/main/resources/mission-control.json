@@ -13,7 +13,15 @@
 		"username": "dsuser",
 		"password": "dspass",
 		"autoCommit": false,
-		"jdbcUrl": "jdbc:postgresql://localhost:5433/dsdb",
+		"jdbcUrl": "jdbc:postgresql://localhost:5432/dsdb",
+		"maximumPoolSize": 5
+	},
+	"authDataSource": {
+		"nucleus.ds.type": "hikari",
+		"username": "authuser",
+		"password": "authpass",
+		"autoCommit": false,
+		"jdbcUrl": "jdbc:postgresql://localhost:5432/authdb",
 		"maximumPoolSize": 5
 	},
 	"org.gooru.missioncontrol.bootstrap.verticles.AuthVerticle": {
@@ -27,7 +35,7 @@
 	          "tcpKeepAlive": true,
 	          "tcpNoDelay": true
 	        },
-	        "sessionTimeoutInSeconds": 28800
+	        "sessionTimeoutInSeconds": 28800000000
 		}
 	},
 	"org.gooru.missioncontrol.bootstrap.verticles.HttpVerticle": {
@@ -44,6 +52,20 @@
 		"instances": 1,
 		"worker": false,
 		"config": {
+		}
+	},
+	"org.gooru.missioncontrol.bootstrap.verticles.SessionPersistenceVerticle": {
+		"instances": 1,
+		"worker": false,
+		"config": {
+			"redisConfig": {
+	          "host": "localhost",
+	          "port": 6379,
+	          "encoding": "UTF-8",
+	          "tcpKeepAlive": true,
+	          "tcpNoDelay": true
+	        },
+	        "sessionTimeoutInSeconds": 28800000000
 		}
 	},
 	"app.configuration": {

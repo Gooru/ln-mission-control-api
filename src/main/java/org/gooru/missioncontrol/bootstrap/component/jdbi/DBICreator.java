@@ -22,6 +22,11 @@ public final class DBICreator {
     return createDBI(
         DataSourceRegistry.getInstance().getDataSourceByName(AppConstants.DATASCOPE_DATA_SOURCE));
   }
+  
+  public static DBI getDbiForAuthDB() {
+    return createDBI(
+        DataSourceRegistry.getInstance().getDataSourceByName(AppConstants.AUTH_DATA_SOURCE));
+  }
 
   private static DBI createDBI(DataSource dataSource) {
     DBI dbi = new DBI(dataSource);

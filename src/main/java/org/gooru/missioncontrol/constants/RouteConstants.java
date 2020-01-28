@@ -19,6 +19,8 @@ public final class RouteConstants {
 
   public static final String VERSION = "version";
   public static final String ID_PARTNER = "partnerId";
+  public static final String SIGNIN = "signin";
+  public static final String AUTH = "auth";
 
   // api/missioncontrol/v1/partners
   public static final String API_PARTNERS_GET = API_BASE_ROUTE + OP_PARTNERS;
@@ -26,21 +28,25 @@ public final class RouteConstants {
   // api/missioncontrol/v1/partners/{partnerId}
   public static final String API_PARTNER_GET =
       API_BASE_ROUTE + OP_PARTNERS + SEP + COLON + ID_PARTNER;
-  
-  //api/missioncontrol/v1/stats/countries
+
+  // api/missioncontrol/v1/stats/countries
   public static final String API_STATS_BY_COUNTRY = API_BASE_ROUTE + "stats/countries";
 
   // Groups creation APIs
   // api/missioncontrol/v1/groups
   public static final String API_GROUPS = API_BASE_ROUTE + OP_GROUPS;
-  
-  //api/missioncontrol/v1/learners
+
+  // api/missioncontrol/v1/learners
   public static final String API_LEARNERS = API_BASE_ROUTE + "learners";
-  
-  //api/missioncontrol/v1/personalized/learners
+
+  // api/missioncontrol/v1/personalized/learners
   public static final String API_PERSONALIZED_LEARNERS = API_BASE_ROUTE + "personalized/learners";
- 
-  
+
+  // api/missioncontrol/v1/auth/signin
+  public static final String API_AUTH_SIGNIN = API_BASE_ROUTE + AUTH + SEP + SIGNIN;
+
+
+
   private RouteConstants() {
     throw new AssertionError();
   }
