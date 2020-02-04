@@ -13,9 +13,9 @@ import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
 interface NucleusSignInUserDao {
 
   @Mapper(NucleusUserModelForSignInMapper.class)
-  @SqlQuery("select id, username, email from users where admin_user_id = :adminUserId and tenant_id = :tenantId "
+  @SqlQuery("select id, username, email from users where id = :adminUserId and tenant_id = :tenantId "
       + "and is_deleted = false")
-  NucleusUserModelForSignIn fetchActiveUser(@Bind("adminUserId") long userId,
+  NucleusUserModelForSignIn fetchActiveUser(@Bind("adminUserId") UUID userId,
       @Bind("tenantId") UUID tenantId);
 
   @Mapper(JsonNodeHolderMapper.class)
