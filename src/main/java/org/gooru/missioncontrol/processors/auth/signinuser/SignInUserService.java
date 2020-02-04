@@ -85,7 +85,7 @@ class SignInUserService {
       throw new HttpResponseWrapperException(HttpConstants.HttpStatus.UNAUTHORIZED, resourceBundle.getString("invalid.password"));
     }
     this.nucleusUserModelForAccessToken = this.nucleusSignInUserDao
-        .fetchActiveUser(signInUserModel.getId(), UUID.fromString(signInUserModel.getTenantId()));
+        .fetchActiveUser(UUID.fromString(signInUserModel.getId()), UUID.fromString(signInUserModel.getTenantId()));
     if (nucleusUserModelForAccessToken == null) {
       LOGGER.warn("user not found in nucleus database for this admin user: {}",
           signInUserModel.getId());
@@ -103,7 +103,7 @@ class SignInUserService {
     LOGGER.debug("Generating access token for admin user id: '{}'", signInUserModel.getId());
 
     NucleusUserModelForSignIn model = nucleusSignInUserDao
-        .fetchActiveUser(signInUserModel.getId(), UUID.fromString(signInUserModel.getTenantId()));
+        .fetchActiveUser(UUID.fromString(signInUserModel.getId()), UUID.fromString(signInUserModel.getTenantId()));
     if (model == null) {
       LOGGER.warn("Invalid user: admin user id: '{}'", signInUserModel.getId());
       throw new HttpResponseWrapperException(HttpConstants.HttpStatus.BAD_REQUEST,

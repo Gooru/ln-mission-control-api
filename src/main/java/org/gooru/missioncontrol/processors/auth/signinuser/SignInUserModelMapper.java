@@ -12,7 +12,7 @@ public class SignInUserModelMapper implements ResultSetMapper<SignInUserModel> {
   @Override
   public SignInUserModel map(int index, ResultSet r, StatementContext ctx) throws SQLException {
     SignInUserModel model = new SignInUserModel();
-    model.setId(r.getLong(MapperFields.USER_ID));
+    model.setId(r.getString(MapperFields.USER_ID));
     model.setFirstName(r.getString(MapperFields.FIRST_NAME));
     model.setLastName(r.getString(MapperFields.LAST_NAME));
     model.setAbout(r.getString(MapperFields.ABOUT));
