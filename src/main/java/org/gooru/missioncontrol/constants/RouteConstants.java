@@ -39,8 +39,6 @@ public final class RouteConstants {
   // api/missioncontrol/v1/learners
   public static final String API_LEARNERS = API_BASE_ROUTE + "learners";
 
-  // api/missioncontrol/v1/personalized/learners
-  public static final String API_PERSONALIZED_LEARNERS = API_BASE_ROUTE + "personalized/learners";
 
   // api/missioncontrol/v1/auth/signin
   public static final String API_AUTH_SIGNIN = API_BASE_ROUTE + AUTH + SEP + SIGNIN;

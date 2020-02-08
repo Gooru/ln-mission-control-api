@@ -25,17 +25,11 @@ public class RouteLearnersConfigurator implements RouteConfigurator {
     this.eb = vertx.eventBus();
     this.mbusTimeout = config.getLong(MessageConstants.MBUS_TIMEOUT, 30L) * 1000;
 
-    router.get(RouteConstants.API_LEARNERS).handler(this::fetchLearners);
-    router.get(RouteConstants.API_PERSONALIZED_LEARNERS).handler(this::fetchPersonalizedLearners);
+    router.post(RouteConstants.API_LEARNERS).handler(this::fetchLearners);
   }
 
   private void fetchLearners(RoutingContext routingContext) {
     RouteHandlerUtils.baseHandler(eb, routingContext, MessageConstants.MSG_OP_LEARNERS,
-        MessagebusEndpoints.MBEP_DISPATCHER, mbusTimeout, LOGGER);
-  }
-
-  private void fetchPersonalizedLearners(RoutingContext routingContext) {
-    RouteHandlerUtils.baseHandler(eb, routingContext, MessageConstants.MSG_OP_PERSONALIZE_LEARNERS,
         MessagebusEndpoints.MBEP_DISPATCHER, mbusTimeout, LOGGER);
   }
 

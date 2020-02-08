@@ -46,6 +46,18 @@ public final class AppConfiguration implements Initializer {
     return configuration.getJsonObject(KEY).getString("temp.file.location");
   }
   
+  public int getDefaultOffset() {
+    return configuration.getInteger("default.offset", 0);
+  }
+
+  public int getDefaultLimit() {
+    return configuration.getInteger("default.limit", 20);
+  }
+
+  public int getDefaultMaxLimit() {
+    return configuration.getInteger("default.max.limit", 50);
+  }
+  
   private static final class Holder {
     private static final AppConfiguration INSTANCE = new AppConfiguration();
   }

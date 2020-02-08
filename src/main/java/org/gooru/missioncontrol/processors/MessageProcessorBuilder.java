@@ -4,8 +4,6 @@ package org.gooru.missioncontrol.processors;
 import org.gooru.missioncontrol.constants.MessageConstants;
 import org.gooru.missioncontrol.processors.auth.signinuser.SignInUserProcessor;
 import org.gooru.missioncontrol.processors.learners.FetchLearnersProcessor;
-import org.gooru.missioncontrol.processors.learners.personalized.FetchPersonalizedLearnersModelMapper;
-import org.gooru.missioncontrol.processors.learners.personalized.FetchPersonalizedLearnersProcessor;
 import org.gooru.missioncontrol.processors.partners.FetchPartnerProcessor;
 import org.gooru.missioncontrol.processors.partners.FetchPartnersProcessor;
 import org.gooru.missioncontrol.processors.stats.countries.StatsByCountryProcessor;
@@ -33,8 +31,6 @@ public final class MessageProcessorBuilder {
         return new StatsByCountryProcessor(vertx, message);
       case MessageConstants.MSG_OP_LEARNERS:
         return new FetchLearnersProcessor(vertx, message);
-      case MessageConstants.MSG_OP_PERSONALIZE_LEARNERS:
-        return new FetchPersonalizedLearnersProcessor(vertx, message);
       case MessageConstants.MSG_OP_USER_SIGNIN:
         return new SignInUserProcessor(vertx, message);
       default:
