@@ -14,6 +14,6 @@ interface FetchLearnersDao {
       + "roster_global_userid, roster_id from users where ((:query is null or username ilike CONCAT('%', :query, '%'))) OR "
       + "((:query is null or email ilike CONCAT('%', :query, '%'))) OR ((:query is null or first_name ilike CONCAT('%', :query, '%'))) OR "
       + "((:query is null or last_name ilike CONCAT('%', :query, '%'))) "
-      + "AND (:tenantId is null or tenant_id = :tenantId) AND user_category = 'student'  offset :offset limit :limit")
+      + "AND (:tenantId is null or tenant_id = :tenantId) AND user_category = 'student' order by first_name, last_name  offset :offset limit :limit")
   List<LearnersModel> fetchLearners(@BindBean UserListCommand.UserListCommandBean command);
 }
