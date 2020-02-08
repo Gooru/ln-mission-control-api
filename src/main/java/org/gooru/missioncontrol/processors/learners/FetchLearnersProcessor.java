@@ -23,10 +23,11 @@ public class FetchLearnersProcessor implements MessageProcessor {
   private final Vertx vertx;
   private final Message<JsonObject> message;
   private final Future<MessageResponse> result;
+  private EventBusMessage eventBusMessage;
   private static final Logger LOGGER =
       LoggerFactory.getLogger(FetchLearnersProcessor.class);
   private final FetchLearnersService fetchLearnersService =
-      new FetchLearnersService(DBICreator.getDbiForDatascopeDB());
+      new FetchLearnersService(DBICreator.getDbiForDefaultDS());
 
   public FetchLearnersProcessor(Vertx vertx, Message<JsonObject> message) {
     this.vertx = vertx;
@@ -47,8 +48,11 @@ public class FetchLearnersProcessor implements MessageProcessor {
 
   private void fetchLearners() {
     try {
+      this.eventBusMessage = EventBusMessage.eventBusMessageBuilder(message);
+      UserListCommand command =
+          UserListCommand.builder(eventBusMessage.getRequestBody(), eventBusMessage.getSession());
       Map<String, List<LearnersModel>> learners =
-          fetchLearnersService.fetchLearners();
+          fetchLearnersService.fetchLearners(command);
       String resultString = new ObjectMapper().writeValueAsString(learners);
       result.complete(MessageResponseFactory.createGetResponse(new JsonObject(resultString)));
     } catch (JsonProcessingException e) {
