@@ -51,8 +51,8 @@ class UserListCommand {
 
   private static UserListCommand buildFromJsonObject(JsonObject requestBody, JsonObject session) {
     UserListCommand result = new UserListCommand();
-    Integer offset = getAsInt(requestBody, CommandAttributes.OFFSET);
-    Integer limit = getAsInt(requestBody, CommandAttributes.LIMIT);
+    Integer offset = requestBody.getInteger(CommandAttributes.OFFSET);
+    Integer limit = requestBody.getInteger(CommandAttributes.LIMIT);
     populateTenantFromSession(session, result);
     populateOffsetAndLimit(offset, limit, result);
     if (requestBody.containsKey(CommandAttributes.QUERY)) {
@@ -94,19 +94,7 @@ class UserListCommand {
     }
   }
 
-  private static Integer getAsInt(JsonObject requestBody, String key) {
-    String value = requestBody.getString(key);
-    Integer result = null;
-    if (key != null) {
-      try {
-        result = Integer.valueOf(value);
-      } catch (NumberFormatException e) {
-        LOGGER.info("Invalid number format for {}", key);
-        result = null;
-      }
-    }
-    return result;
-  }
+
 
   private void validate() {
     if (offset == null || limit == null) {
