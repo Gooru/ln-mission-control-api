@@ -49,8 +49,8 @@ public class FetchLearnersProcessor implements MessageProcessor {
   private void fetchLearners() {
     try {
       this.eventBusMessage = EventBusMessage.eventBusMessageBuilder(message);
-      UserListCommand command =
-          UserListCommand.builder(eventBusMessage.getRequestBody(), eventBusMessage.getSession());
+      LearnerListCommand command =
+          LearnerListCommand.builder(eventBusMessage.getRequestBody(), eventBusMessage.getSession());
       Map<String, List<LearnersModel>> learners =
           fetchLearnersService.fetchLearners(command);
       String resultString = new ObjectMapper().writeValueAsString(learners);
