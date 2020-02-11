@@ -13,7 +13,7 @@ class FetchLearnersService {
 
   private final String LEARNERS = "learners";
 
-  private UserListCommand command;
+  private LearnerListCommand command;
 
 
   FetchLearnersService(DBI dbi) {
@@ -21,7 +21,7 @@ class FetchLearnersService {
   }
 
 
-  Map<String, List<LearnersModel>> fetchLearners(UserListCommand command) {
+  Map<String, List<LearnersModel>> fetchLearners(LearnerListCommand command) {
     this.command = command;
     final List<LearnersModel> learners = fetchLearnersDao.fetchLearners(command.asBean());
     Map<String, List<LearnersModel>> learnersMap = new HashMap<>();

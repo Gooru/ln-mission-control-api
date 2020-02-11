@@ -2,6 +2,8 @@ package org.gooru.missioncontrol.processors.learners;
 
 import java.util.UUID;
 import org.gooru.missioncontrol.bootstrap.component.AppConfiguration;
+import org.gooru.missioncontrol.bootstrap.component.jdbi.PGArray;
+import org.gooru.missioncontrol.bootstrap.component.jdbi.PGArrayUtils;
 import org.gooru.missioncontrol.constants.HttpConstants;
 import org.gooru.missioncontrol.processors.exceptions.HttpResponseWrapperException;
 import org.slf4j.Logger;
@@ -9,13 +11,15 @@ import org.slf4j.LoggerFactory;
 import io.vertx.core.json.JsonObject;
 
 
-class UserListCommand {
+class LearnerListCommand {
   private Integer offset;
   private Integer limit;
   private UUID tenantId;
   private String query;
+  private PGArray<UUID> classIds;
+  private PGArray<Long> schoolIds;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserListCommand.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(LearnerListCommand.class);
 
   public Integer getOffset() {
     return offset;
@@ -33,24 +37,35 @@ class UserListCommand {
     return query;
   }
 
+  public PGArray<Long> getSchoolIds() {
+    return schoolIds;
+  }
 
-  static UserListCommand builder(JsonObject requestBody, JsonObject session) {
-    UserListCommand result = UserListCommand.buildFromJsonObject(requestBody, session);
+  public PGArray<UUID> getClassIds() {
+    return classIds;
+  }
+
+
+  static LearnerListCommand builder(JsonObject requestBody, JsonObject session) {
+    LearnerListCommand result = LearnerListCommand.buildFromJsonObject(requestBody, session);
     result.validate();
     return result;
   }
 
-  public UserListCommandBean asBean() {
-    UserListCommandBean bean = new UserListCommandBean();
+  public LearnerListCommandBean asBean() {
+    LearnerListCommandBean bean = new LearnerListCommandBean();
     bean.limit = limit;
     bean.offset = offset;
     bean.tenantId = tenantId;
     bean.query = query;
+    bean.classIds = classIds;
+    bean.schoolIds = schoolIds;
     return bean;
   }
 
-  private static UserListCommand buildFromJsonObject(JsonObject requestBody, JsonObject session) {
-    UserListCommand result = new UserListCommand();
+  @SuppressWarnings("unchecked")
+  private static LearnerListCommand buildFromJsonObject(JsonObject requestBody, JsonObject session) {
+    LearnerListCommand result = new LearnerListCommand();
     Integer offset = requestBody.getInteger(CommandAttributes.OFFSET);
     Integer limit = requestBody.getInteger(CommandAttributes.LIMIT);
     populateTenantFromSession(session, result);
@@ -59,10 +74,20 @@ class UserListCommand {
       result.query = requestBody.getString(CommandAttributes.QUERY);
     }
 
+    if (requestBody.containsKey(CommandAttributes.CLASS_IDS)) {
+      result.classIds = PGArrayUtils.convertFromListStringToSqlArrayOfUUID(
+          requestBody.getJsonArray(CommandAttributes.CLASS_IDS).getList());
+    }
+
+    if (requestBody.containsKey(CommandAttributes.SCHOOL_IDS)) {
+      result.schoolIds = PGArrayUtils.convertFromListLongToSqlArrayOfLong(
+          requestBody.getJsonArray(CommandAttributes.SCHOOL_IDS).getList());
+    }
+
     return result;
   }
 
-  private static void populateTenantFromSession(JsonObject session, UserListCommand command) {
+  private static void populateTenantFromSession(JsonObject session, LearnerListCommand command) {
     JsonObject tenant = session.getJsonObject(CommandAttributes.TENANT);
     if (tenant != null) {
       command.tenantId = UUID.fromString(tenant.getString(CommandAttributes.TENANT_ID));
@@ -70,7 +95,7 @@ class UserListCommand {
   }
 
   private static void populateOffsetAndLimit(Integer offset, Integer limit,
-      UserListCommand command) {
+      LearnerListCommand command) {
     if (offset == null) {
       command.offset = AppConfiguration.getInstance().getDefaultOffset();
     } else {
@@ -105,11 +130,13 @@ class UserListCommand {
 
   }
 
-  public static class UserListCommandBean {
+  public static class LearnerListCommandBean {
     private Integer offset;
     private Integer limit;
     private UUID tenantId;
     private String query;
+    private PGArray<UUID> classIds;
+    private PGArray<Long> schoolIds;
 
     public Integer getOffset() {
       return offset;
@@ -143,6 +170,22 @@ class UserListCommand {
       this.query = query;
     }
 
+    public PGArray<UUID> getClassIds() {
+      return classIds;
+    }
+
+    public void setClassIds(PGArray<UUID> classIds) {
+      this.classIds = classIds;
+    }
+
+    public PGArray<Long> getSchoolIds() {
+      return schoolIds;
+    }
+
+    public void setSchoolIds(PGArray<Long> schoolIds) {
+      this.schoolIds = schoolIds;
+    }
+
   }
 
   static class CommandAttributes {
@@ -151,6 +194,8 @@ class UserListCommand {
     private static final String TENANT = "tenant";
     private static final String TENANT_ID = "tenant_id";
     private static final String QUERY = "query";
+    private static final String CLASS_IDS = "class_ids";
+    private static final String SCHOOL_IDS = "school_ids";
 
     private CommandAttributes() {
       throw new AssertionError();
