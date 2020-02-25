@@ -13,7 +13,7 @@ interface FetchLearnersDao {
       + "((:query is null or username ilike CONCAT('%', :query, '%')) OR "
       + "(:query is null or u.email ilike CONCAT('%', :query, '%')) OR (:query is null or first_name ilike CONCAT('%', :query, '%')) OR "
       + "(:query is null or last_name ilike CONCAT('%', :query, '%')) "
-      + ") AND (:tenantId is null or u.tenant_id = :tenantId) AND user_category = 'student' AND u.is_deleted = false AND  "
+      + ") AND (:tenantId is null or u.tenant_id = :tenantId or u.tenant_root = :tenantId) AND user_category = 'student' AND u.is_deleted = false AND  "
       + "(:classIds::uuid[] is null or c.id = ANY(:classIds::uuid[])) AND "
       + "(:schoolIds::bigint[] is null or c.school_id = ANY(:schoolIds::bigint[])) order by first_name, "
       + "last_name  offset :offset limit :limit")
