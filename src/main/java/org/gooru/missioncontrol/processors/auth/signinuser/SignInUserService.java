@@ -43,7 +43,7 @@ class SignInUserService {
   private DBI coreDbi;
   private static ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");
   private static final List<String> TENANT_SETTING_KEYS_LIST =
-      Collections.unmodifiableList(Arrays.asList("allow_multi_grade_class"));
+      Collections.unmodifiableList(Arrays.asList("allow_multi_grade_class","usage_metrics_visibility"));
   private static final String OPEN_CURLY_BRACE = "{";
   private static final String CLOSE_CURLY_BRACE = "}";
 
