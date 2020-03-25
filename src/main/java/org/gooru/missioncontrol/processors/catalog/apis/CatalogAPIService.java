@@ -1,7 +1,6 @@
 package org.gooru.missioncontrol.processors.catalog.apis;
 
 import org.gooru.missioncontrol.bootstrap.component.AppConfiguration;
-import org.gooru.missioncontrol.constants.Constants;
 
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -13,16 +12,21 @@ import io.vertx.core.http.RequestOptions;
 public class CatalogAPIService {
 
   private HttpClient httpClient;
-
+  
+  private AppConfiguration appConfig;
+  
   public CatalogAPIService(HttpClient httpClient) {
     this.httpClient = httpClient;
+    this.appConfig = AppConfiguration.getInstance();
+
   }
 
   public Future<String> fetchTranscripts(String resourceIds) {
 
     Future<String> future = Future.future();
+
     RequestOptions reqOptions = getReqOptions();
-    reqOptions.setURI(Constants.TRANSCRIPT_API_URI + resourceIds);
+    reqOptions.setURI(appConfig.getCatalogAPITranscriptURI()+ resourceIds);
 
     return callGetAPI(reqOptions, future);
 
@@ -33,17 +37,16 @@ public class CatalogAPIService {
 
     Future<String> future = Future.future();
     RequestOptions reqOptions = getReqOptions();
-    reqOptions.setURI(Constants.SUMMARY_API_URI + resourceIds);
+    reqOptions.setURI(appConfig.getCatalogAPISummaryURI() + resourceIds);
 
     return callGetAPI(reqOptions, future);
 
   }
 
   private RequestOptions getReqOptions() {
-    AppConfiguration appConfig = AppConfiguration.getInstance();
     RequestOptions reqOptions = new RequestOptions();
-    reqOptions.setHost(appConfig.apiHost());
-    reqOptions.setPort(appConfig.apiServerPort());
+    reqOptions.setHost(appConfig.getCatalogAPIHost());
+    reqOptions.setPort(appConfig.getCatalogAPIServerPort());
     return reqOptions;
   }
   

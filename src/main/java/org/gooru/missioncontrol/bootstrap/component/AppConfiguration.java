@@ -58,13 +58,21 @@ public final class AppConfiguration implements Initializer {
     return configuration.getInteger("default.max.limit", 50);
   }
   
-  public String apiHost() {
+  public String getCatalogAPIHost() {
     return configuration.getJsonObject(KEY).getString("catalog.api.server.host");
   }
   
-  public Integer apiServerPort() {
+  public Integer getCatalogAPIServerPort() {
     return configuration.getJsonObject(KEY).getInteger("catalog.api.server.port");
   }
+  public String getCatalogAPITranscriptURI() {
+    return configuration.getJsonObject(KEY).getString("catalog.api.transcript.uri");
+  }
+  
+  public String getCatalogAPISummaryURI() {
+    return configuration.getJsonObject(KEY).getString("catalog.api.summary.uri");
+  }
+
   
   private static final class Holder {
     private static final AppConfiguration INSTANCE = new AppConfiguration();

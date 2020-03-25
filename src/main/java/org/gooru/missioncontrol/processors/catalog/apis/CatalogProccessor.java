@@ -27,23 +27,14 @@ public class CatalogProccessor {
   
  
   protected String validateAndExtractRequest(JsonObject requestData) {
-    try {
       String resourceIdsStr = requestData.getString(RESOURCE_IDS);
       
       if(resourceIdsStr == null || resourceIdsStr.isEmpty()) {
         throw new HttpResponseWrapperException(HttpConstants.HttpStatus.BAD_REQUEST,
-          "Invalid format of resource ids in payload");
+          "Invalid resource ids in payload");
       }
       
       return resourceIdsStr;        
-    } catch (ClassCastException e) {
-      throw new HttpResponseWrapperException(HttpConstants.HttpStatus.BAD_REQUEST,
-          "Invalid format of resource ids in payload");
-    }
-    catch (NullPointerException ex) {
-      throw new HttpResponseWrapperException(HttpConstants.HttpStatus.BAD_REQUEST,
-        "Invalid resource ids passed in the request");
-      }
   }
 
  

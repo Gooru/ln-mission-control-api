@@ -44,6 +44,7 @@ public class CatalogTranscriptsSummaryProcessor extends CatalogProccessor implem
            result.complete(MessageResponseFactory.createGetResponse(new JsonObject(asyncResult.result())));
          }
          else {
+           LOGGER.debug("Failed to fetch summary..", asyncResult.cause());
            result.fail(asyncResult.cause());
          }
        });

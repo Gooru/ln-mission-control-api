@@ -44,6 +44,7 @@ public class CatalogTranscriptsProcessor extends CatalogProccessor implements Me
            result.complete(MessageResponseFactory.createGetResponse(new JsonObject(asyncResult.result())));
          }
          else {
+           LOGGER.debug("Failed to fetch transcripts..", asyncResult.cause());
            result.fail(asyncResult.cause());
          }
        });
