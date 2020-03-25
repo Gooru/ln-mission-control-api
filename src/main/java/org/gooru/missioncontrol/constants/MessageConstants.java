@@ -48,6 +48,9 @@ public final class MessageConstants {
   public static final String MSG_OP_PERSONALIZE_LEARNERS = "msg.op.personalize.learners";
   public static final String MSG_OP_USER_SIGNIN = "msg.op.user.signin";
   public static final String NO_VALUE = new UUID(0, 0).toString();
+  public static final String MSG_OP_TRANSCRIPTS = "msg.op.transcripts";
+  public static final String MSG_OP_SUMMARY = "msg.op.summary";
+
   
   public static final class Params {
 

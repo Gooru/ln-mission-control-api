@@ -43,6 +43,11 @@ public final class RouteConstants {
   // api/missioncontrol/v1/auth/signin
   public static final String API_AUTH_SIGNIN = API_BASE_ROUTE + AUTH + SEP + SIGNIN;
 
+  //api/missioncontrol/v1/resource/transcripts
+  public static final String API_TRANSCRIPTS = API_BASE_ROUTE + "resource/transcripts";
+
+  //api/missioncontrol/v1/resource/summary
+  public static final String API_SUMMARY = API_BASE_ROUTE + "resource/summary";
 
 
   private RouteConstants() {

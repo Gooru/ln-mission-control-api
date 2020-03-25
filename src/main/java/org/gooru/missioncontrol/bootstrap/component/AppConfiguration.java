@@ -58,6 +58,14 @@ public final class AppConfiguration implements Initializer {
     return configuration.getInteger("default.max.limit", 50);
   }
   
+  public String apiHost() {
+    return configuration.getJsonObject(KEY).getString("catalog.api.server.host");
+  }
+  
+  public Integer apiServerPort() {
+    return configuration.getJsonObject(KEY).getInteger("catalog.api.server.port");
+  }
+  
   private static final class Holder {
     private static final AppConfiguration INSTANCE = new AppConfiguration();
   }

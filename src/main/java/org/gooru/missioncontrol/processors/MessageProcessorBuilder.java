@@ -3,10 +3,13 @@ package org.gooru.missioncontrol.processors;
 
 import org.gooru.missioncontrol.constants.MessageConstants;
 import org.gooru.missioncontrol.processors.auth.signinuser.SignInUserProcessor;
+import org.gooru.missioncontrol.processors.catalog.apis.CatalogTranscriptsProcessor;
+import org.gooru.missioncontrol.processors.catalog.apis.CatalogTranscriptsSummaryProcessor;
 import org.gooru.missioncontrol.processors.learners.FetchLearnersProcessor;
 import org.gooru.missioncontrol.processors.partners.FetchPartnerProcessor;
 import org.gooru.missioncontrol.processors.partners.FetchPartnersProcessor;
 import org.gooru.missioncontrol.processors.stats.countries.StatsByCountryProcessor;
+
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -33,6 +36,10 @@ public final class MessageProcessorBuilder {
         return new FetchLearnersProcessor(vertx, message);
       case MessageConstants.MSG_OP_USER_SIGNIN:
         return new SignInUserProcessor(vertx, message);
+      case MessageConstants.MSG_OP_TRANSCRIPTS:
+        return new CatalogTranscriptsProcessor(vertx, message);
+      case MessageConstants.MSG_OP_SUMMARY:
+        return new CatalogTranscriptsSummaryProcessor(vertx, message);  
       default:
         return null;
     }
