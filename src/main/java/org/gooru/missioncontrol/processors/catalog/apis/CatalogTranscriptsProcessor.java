@@ -37,9 +37,9 @@ public class CatalogTranscriptsProcessor extends CatalogProccessor implements Me
   private void fetchTranscripts() {
     try {
       JsonObject requestBody = message.body().getJsonObject(MessageConstants.MSG_HTTP_BODY);
-      String resourceIds = validateAndExtractRequest(requestBody);
+      String resourceId = validateAndExtractRequest(requestBody);
 
-       this.catalogAPIService.fetchTranscripts(resourceIds).setHandler(asyncResult->{
+       this.catalogAPIService.fetchTranscripts(resourceId).setHandler(asyncResult->{
          if(asyncResult.succeeded()) {
            result.complete(MessageResponseFactory.createGetResponse(new JsonObject(asyncResult.result())));
          }

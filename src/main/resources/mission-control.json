@@ -72,7 +72,7 @@
 		"temp.file.location" : "/home/gooru/data/gooru/code/mission-control-api/uploads/",
         "catalog.api.server.host" : "localhost",
 		"catalog.api.server.port" : 8081,
-		"catalog.api.transcript.uri":"/api/catalog/v1/resource/transcripts?resource_ids=",
-		"catalog.api.summary.uri":"/api/catalog/v1/resource/summary?resource_ids="
+		"catalog.api.transcript.uri":"/api/catalog/v1/resource/transcripts?resource_id=",
+		"catalog.api.summary.uri":"/api/catalog/v1/resource/summary?resource_id="
 	}
 }

@@ -15,7 +15,7 @@ public class CatalogProccessor {
   protected final Message<JsonObject> message;
   protected final Future<MessageResponse> result;
   protected final CatalogAPIService catalogAPIService; 
-  protected static final String RESOURCE_IDS = "resource_ids";
+  protected static final String RESOURCE_ID = "resource_id";
 
   
   protected CatalogProccessor(Vertx vertx, Message<JsonObject> message) {
@@ -27,14 +27,14 @@ public class CatalogProccessor {
   
  
   protected String validateAndExtractRequest(JsonObject requestData) {
-      String resourceIdsStr = requestData.getString(RESOURCE_IDS);
+      String resourceId = requestData.getString(RESOURCE_ID);
       
-      if(resourceIdsStr == null || resourceIdsStr.isEmpty()) {
+      if(resourceId == null || resourceId.isEmpty()) {
         throw new HttpResponseWrapperException(HttpConstants.HttpStatus.BAD_REQUEST,
-          "Invalid resource ids in payload");
+          "Invalid resource id in payload");
       }
       
-      return resourceIdsStr;        
+      return resourceId;        
   }
 
  
