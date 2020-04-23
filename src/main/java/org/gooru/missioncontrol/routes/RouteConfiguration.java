@@ -26,6 +26,7 @@ public class RouteConfiguration implements Iterable<RouteConfigurator> {
     configurators.add(new RouteLearnersConfigurator());
     configurators.add(new RouteCatalogAPIConfigurator());
     configurators.add(new RouteFailureConfigurator());
+    configurators.add(new RouteResearchConfigurator());
     
     iterator = configurators.iterator();
   }
