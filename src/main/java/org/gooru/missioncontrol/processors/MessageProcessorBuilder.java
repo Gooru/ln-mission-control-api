@@ -8,8 +8,8 @@ import org.gooru.missioncontrol.processors.catalog.apis.CatalogTranscriptsSummar
 import org.gooru.missioncontrol.processors.learners.FetchLearnersProcessor;
 import org.gooru.missioncontrol.processors.partners.FetchPartnerProcessor;
 import org.gooru.missioncontrol.processors.partners.FetchPartnersProcessor;
+import org.gooru.missioncontrol.processors.researchprojects.FetchResearchProjectsProcessor;
 import org.gooru.missioncontrol.processors.stats.countries.StatsByCountryProcessor;
-
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -39,7 +39,9 @@ public final class MessageProcessorBuilder {
       case MessageConstants.MSG_OP_TRANSCRIPTS:
         return new CatalogTranscriptsProcessor(vertx, message);
       case MessageConstants.MSG_OP_SUMMARY:
-        return new CatalogTranscriptsSummaryProcessor(vertx, message);  
+        return new CatalogTranscriptsSummaryProcessor(vertx, message);
+      case MessageConstants.MSG_OP_RESEARCH_PROJECTS:
+        return new FetchResearchProjectsProcessor(vertx, message);
       default:
         return null;
     }

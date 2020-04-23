@@ -50,6 +50,7 @@ public final class MessageConstants {
   public static final String NO_VALUE = new UUID(0, 0).toString();
   public static final String MSG_OP_TRANSCRIPTS = "msg.op.transcripts";
   public static final String MSG_OP_SUMMARY = "msg.op.summary";
+  public static final String MSG_OP_RESEARCH_PROJECTS = "msg.op.research.projects";
 
   
   public static final class Params {
