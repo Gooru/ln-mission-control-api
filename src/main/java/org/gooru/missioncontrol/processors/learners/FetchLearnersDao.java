@@ -1,6 +1,7 @@
 package org.gooru.missioncontrol.processors.learners;
 
 import java.util.List;
+import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
@@ -18,4 +19,7 @@ interface FetchLearnersDao {
       + "(:schoolIds::bigint[] is null or c.school_id = ANY(:schoolIds::bigint[])) order by first_name, "
       + "last_name  offset :offset limit :limit")
   List<LearnersModel> fetchLearners(@BindBean LearnerListCommand.LearnerListCommandBean command);
+
+  @SqlQuery("SELECT groups " + "FROM group_user_acl where type = 'class' and user_id = :userId")
+  String fetchGroupUserAcl(@Bind("userId") String userId);
 }

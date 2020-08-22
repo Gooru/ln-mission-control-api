@@ -1,5 +1,6 @@
 package org.gooru.missioncontrol.processors.learners;
 
+import java.util.Arrays;
 import java.util.UUID;
 import org.gooru.missioncontrol.bootstrap.component.AppConfiguration;
 import org.gooru.missioncontrol.bootstrap.component.jdbi.PGArray;
@@ -18,6 +19,7 @@ class LearnerListCommand {
   private String query;
   private PGArray<UUID> classIds;
   private PGArray<Long> schoolIds;
+  private String userId;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LearnerListCommand.class);
 
@@ -31,6 +33,10 @@ class LearnerListCommand {
 
   public UUID getTenantId() {
     return tenantId;
+  }
+  
+  public String getUserId() {
+    return userId;
   }
 
   public String getQuery() {
@@ -62,12 +68,24 @@ class LearnerListCommand {
     bean.schoolIds = schoolIds;
     return bean;
   }
+  
+  public LearnerListCommandBean setBean(Integer offset,Integer limit,UUID tenantId,String query,PGArray<UUID> classIds,PGArray<Long> schoolIds) {
+    LearnerListCommandBean bean = new LearnerListCommandBean();
+    bean.limit = limit;
+    bean.offset = offset;
+    bean.tenantId = tenantId;
+    bean.query = query;
+    bean.classIds = classIds;
+    bean.schoolIds = schoolIds;
+    return bean;
+  }
 
   @SuppressWarnings("unchecked")
   private static LearnerListCommand buildFromJsonObject(JsonObject requestBody, JsonObject session) {
     LearnerListCommand result = new LearnerListCommand();
     Integer offset = requestBody.getInteger(CommandAttributes.OFFSET);
     Integer limit = requestBody.getInteger(CommandAttributes.LIMIT);
+    result.userId=session.getString(CommandAttributes.USERID);
     populateTenantFromSession(session, result);
     populateOffsetAndLimit(offset, limit, result);
     if (requestBody.containsKey(CommandAttributes.QUERY)) {
@@ -86,14 +104,14 @@ class LearnerListCommand {
 
     return result;
   }
-
+  
   private static void populateTenantFromSession(JsonObject session, LearnerListCommand command) {
     JsonObject tenant = session.getJsonObject(CommandAttributes.TENANT);
     if (tenant != null) {
       command.tenantId = UUID.fromString(tenant.getString(CommandAttributes.TENANT_ID));
     }
   }
-
+  
   private static void populateOffsetAndLimit(Integer offset, Integer limit,
       LearnerListCommand command) {
     if (offset == null) {
@@ -192,6 +210,7 @@ class LearnerListCommand {
     private static final String OFFSET = "offset";
     private static final String LIMIT = "limit";
     private static final String TENANT = "tenant";
+    private static final String USERID = "user_id";
     private static final String TENANT_ID = "tenant_id";
     private static final String QUERY = "query";
     private static final String CLASS_IDS = "class_ids";
