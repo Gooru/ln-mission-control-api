@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import org.gooru.missioncontrol.bootstrap.component.jdbi.PGArrayUtils;
 import org.skife.jdbi.v2.DBI;
-import com.google.gson.Gson;
 
 
 class FetchLearnersService {
@@ -26,16 +25,17 @@ class FetchLearnersService {
     this.command = command;
     List<LearnersModel> learners = null;
     String groupUsers = fetchLearnersDao.fetchGroupUserAcl(command.getUserId());
+    String replaceString =
+        groupUsers.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "").toString();
+    String[] classIds = new String[] {replaceString};
     Map<String, List<LearnersModel>> learnersMap = new HashMap<>();
-    Gson gson = new Gson();
-    String[] fromJson = gson.fromJson(groupUsers, String[].class);
-    if (fromJson[0].equals("*")) {
+    if (classIds[0].equals("*")) {
       learners = fetchLearnersDao.fetchLearners(command.asBean());
       learnersMap.put(LEARNERS, learners);
     } else {
       learners = fetchLearnersDao.fetchLearners(command.setBean(command.getOffset(),
           command.getLimit(), command.getTenantId(), command.getQuery(),
-          PGArrayUtils.convertFromListStringToSqlArrayOfUUID(Arrays.asList(fromJson)),
+          PGArrayUtils.convertFromListStringToSqlArrayOfUUID(Arrays.asList(classIds)),
           command.getSchoolIds()));
       learnersMap.put(LEARNERS, learners);
     }

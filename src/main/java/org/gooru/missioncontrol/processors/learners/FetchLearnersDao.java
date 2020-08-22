@@ -5,6 +5,7 @@ import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
+import io.vertx.core.json.JsonObject;
 
 
 interface FetchLearnersDao {
@@ -20,6 +21,6 @@ interface FetchLearnersDao {
       + "last_name  offset :offset limit :limit")
   List<LearnersModel> fetchLearners(@BindBean LearnerListCommand.LearnerListCommandBean command);
 
-  @SqlQuery("SELECT groups " + "FROM group_user_acl where type = 'class' and user_id = :userId")
+  @SqlQuery("SELECT groups FROM group_user_acl where type = 'class' and user_id = :userId")
   String fetchGroupUserAcl(@Bind("userId") String userId);
 }
